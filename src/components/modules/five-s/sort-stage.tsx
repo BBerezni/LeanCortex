@@ -78,9 +78,11 @@ export function SortStage() {
   const [successSound, setSuccessSound] = useState<HTMLAudioElement | null>(null);
   const [errorSound, setErrorSound] = useState<HTMLAudioElement | null>(null);
   const [audioUnlocked, setAudioUnlocked] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   // Shuffle items on mount (client-side only to avoid hydration error)
   useEffect(() => {
+    setIsClient(true);
     setShuffledItems(shuffleArray(baseItems));
   }, []);
 
@@ -332,7 +334,7 @@ export function SortStage() {
             
             {/* Animated Tutorial Hand */}
             <AnimatePresence>
-              {showTutorial && !hasStartedDragging && tutorialLoop < 3 && (
+              {showTutorial && !hasStartedDragging && tutorialLoop < 3 && isClient && (
                 <motion.div
                   className="absolute pointer-events-none z-50"
                   initial={{ opacity: 0, x: 0, y: 0 }}

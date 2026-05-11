@@ -5,6 +5,10 @@ import Link from 'next/link'
 import { ArrowLeft, Lock, Layers, TrendingUp, Target, Users, Shield, Scale, Activity } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+export const viewport = {
+  themeColor: '#0f172a',
+}
+
 const modules = [
   {
     id: '5s',
