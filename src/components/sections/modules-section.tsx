@@ -117,7 +117,7 @@ export function ModulesSection() {
                 </div>
 
                 {/* CTA Button */}
-                <Link href={`/moduli/${module.id}`}>
+                <Link href="/moduli">
                   <Button variant="outline" className="w-full">
                     Saznajte više
                     <ArrowRight className="ml-2 h-4 w-4" />

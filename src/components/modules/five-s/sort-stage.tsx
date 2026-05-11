@@ -174,6 +174,7 @@ export function SortStage() {
         // Show feedback popup at drop location
         setFeedbackPopup({ x: itemX, y: itemY });
         setTimeout(() => setFeedbackPopup(null), 1500);
+        return true; // Successful drop - item should disappear
       } else {
         // Incorrect sort - item is necessary
         console.log('Item type:', item.type, '- Necessary, bouncing back');
@@ -185,10 +186,11 @@ export function SortStage() {
           errorSound.play().catch((e: Error) => console.log('Audio play failed:', e));
         }
         setTimeout(() => setErrorMessage(null), 2000);
-        return false; // Indicate unsuccessful drop
+        return false; // Indicate unsuccessful drop - bounce back
       }
     }
-    return true; // Indicate successful drop or not in drop zone
+    // Dropped outside red zone - always bounce back to grid position
+    return false;
   }, [successSound, errorSound]);
 
   const handleDrag = useCallback((info: PanInfo) => {
@@ -336,8 +338,8 @@ export function SortStage() {
                   initial={{ opacity: 0, x: 0, y: 0 }}
                   animate={{
                     opacity: [0, 1, 1, 1, 0],
-                    x: [0, 0, 150, 150, 150],
-                    y: [0, 0, -50, -50, -50]
+                    x: window.innerWidth > 768 ? [0, 0, 150, 150, 150] : [0, 0, 0, 0, 0],
+                    y: window.innerWidth > 768 ? [0, 0, -50, -50, -50] : [0, 0, 200, 200, 200]
                   }}
                   transition={{
                     delay: 2,
@@ -355,7 +357,7 @@ export function SortStage() {
                   }}
                   style={{
                     right: '20px',
-                    top: '60px'
+                    top: window.innerWidth > 768 ? '60px' : '20px'
                   }}
                 >
                   <Hand className="h-12 w-12 text-yellow-300 drop-shadow-2xl" />

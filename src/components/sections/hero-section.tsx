@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Play, BookOpen, Target } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export function HeroSection() {
   return (
