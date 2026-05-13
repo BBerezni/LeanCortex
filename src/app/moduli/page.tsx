@@ -13,7 +13,7 @@ const modules = [
   {
     id: '5s',
     title: '5S Metodologija',
-    description: 'Organizacija radnog prostora kroz 5 principa',
+    description: 'Organizovati (Seiton) - Pravo mesto za sve i sve na svom mestu',
     icon: Layers,
     color: 'from-blue-600 to-blue-800',
     active: true,
@@ -184,7 +184,7 @@ export default function ModuliPage() {
             Mapa razvoja
           </h3>
           <p className="text-sm text-gray-400">
-            Trenutno je dostupan modul 5S Metodologija. Ostali moduli su u razvoju i bit će objavljeni uskoro. 
+            Trenutno je dostupan modul 5S Metodologija. Ostali moduli su u razvoju i biće objavljeni uskoro. 
             Svaki modul je dizajniran da pruži praktična znanja kroz interaktivne simulacije.
           </p>
         </motion.div>
