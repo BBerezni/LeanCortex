@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
+import { SeisoTool } from './seiso-stage';
 import { 
   Wrench, 
   Trash2, 
@@ -17,7 +17,6 @@ import {
   X,
   CheckCircle,
   AlertCircle,
-  X as CloseIcon,
   Hand
 } from 'lucide-react';
 
@@ -104,7 +103,11 @@ const initializeSeiton = (sourceItems: Item[]): SeitonTool[] => {
 // Calculate total unnecessary items
 const totalUnnecessary = baseItems.filter(item => item.type === 'trash' || item.type === 'broken').length;
 
-export function SortStage() {
+interface SortStageProps {
+  onTransitionToPhase3?: (tools: SeisoTool[]) => void;
+}
+
+export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
   const [phase, setPhase] = useState(1); // Phase 1: Sort, Phase 2: Seiton
   const [sortedItems, setSortedItems] = useState<Set<string>>(new Set());
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -682,15 +685,28 @@ export function SortStage() {
                 Bravo! Pređi na sledeći korak: Seiton (Organizovati)
               </motion.button>
             ) : (
-              <Link href="/moduli/5s/seiso">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
-                >
-                  Bravo! Pređi na sledeći korak: Seiso (Očistiti)
-                </motion.button>
-              </Link>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => {
+                  setShowSuccessModal(false);
+                  if (onTransitionToPhase3) {
+                    // Convert SeitonTool to SeisoTool format
+                    const toolsForPhase3: SeisoTool[] = seitonProgress.map((tool: any) => ({
+                      id: tool.id,
+                      name: tool.name,
+                      icon: tool.icon,
+                      color: tool.color,
+                      shadowId: tool.shadowId,
+                      cleanliness: 0
+                    }));
+                    onTransitionToPhase3(toolsForPhase3);
+                  }
+                }}
+                className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
+              >
+                Bravo! Pređi na sledeći korak: Seiso (Očistiti)
+              </motion.button>
             )}
           </motion.div>
         </motion.div>

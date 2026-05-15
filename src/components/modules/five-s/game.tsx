@@ -1,11 +1,21 @@
 'use client';
 
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { SortStage } from './sort-stage';
+import { SeisoStage, SeisoTool } from './seiso-stage';
 
 export function FiveSGame() {
+  const [currentPhase, setCurrentPhase] = useState(1); // 1: Sort, 2: Seiton, 3: Seiso
+  const [phase3Tools, setPhase3Tools] = useState<SeisoTool[]>([]);
+
+  const handleTransitionToPhase3 = (tools: SeisoTool[]) => {
+    setPhase3Tools(tools);
+    setCurrentPhase(3);
+  };
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
       {/* Background Image with Overlay */}
@@ -50,7 +60,11 @@ export function FiveSGame() {
         </motion.div>
 
         <div className="flex-1 p-4 sm:p-8">
-          <SortStage />
+          {currentPhase === 3 ? (
+            <SeisoStage tools={phase3Tools} />
+          ) : (
+            <SortStage onTransitionToPhase3={handleTransitionToPhase3} />
+          )}
         </div>
       </div>
     </div>
