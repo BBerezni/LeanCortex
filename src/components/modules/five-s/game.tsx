@@ -6,14 +6,19 @@ import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import { SortStage } from './sort-stage';
 import { SeisoStage, SeisoTool } from './seiso-stage';
+import { SeiketsuStage } from './seiketsu-stage';
 
 export function FiveSGame() {
-  const [currentPhase, setCurrentPhase] = useState(1); // 1: Sort, 2: Seiton, 3: Seiso
+  const [currentPhase, setCurrentPhase] = useState(1); // 1: Sort, 2: Seiton, 3: Seiso, 4: Seiketsu
   const [phase3Tools, setPhase3Tools] = useState<SeisoTool[]>([]);
 
   const handleTransitionToPhase3 = (tools: SeisoTool[]) => {
     setPhase3Tools(tools);
     setCurrentPhase(3);
+  };
+
+  const handleTransitionToPhase4 = () => {
+    setCurrentPhase(4);
   };
 
   return (
@@ -60,8 +65,10 @@ export function FiveSGame() {
         </motion.div>
 
         <div className="flex-1 p-4 sm:p-8">
-          {currentPhase === 3 ? (
-            <SeisoStage tools={phase3Tools} />
+          {currentPhase === 4 ? (
+            <SeiketsuStage tools={phase3Tools} />
+          ) : currentPhase === 3 ? (
+            <SeisoStage tools={phase3Tools} onTransitionToPhase4={handleTransitionToPhase4} />
           ) : (
             <SortStage onTransitionToPhase3={handleTransitionToPhase3} />
           )}

@@ -15,9 +15,10 @@ export interface SeisoTool {
 
 interface SeisoStageProps {
   tools: SeisoTool[];
+  onTransitionToPhase4?: () => void;
 }
 
-export function SeisoStage({ tools: initialTools }: SeisoStageProps) {
+export function SeisoStage({ tools: initialTools, onTransitionToPhase4 }: SeisoStageProps) {
   const [tools, setTools] = useState<SeisoTool[]>(
     initialTools.map(tool => ({ ...tool, cleanliness: 0 }))
   );
@@ -229,10 +230,15 @@ export function SeisoStage({ tools: initialTools }: SeisoStageProps) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setShowSuccessModal(false)}
+              onClick={() => {
+                setShowSuccessModal(false);
+                if (onTransitionToPhase4) {
+                  onTransitionToPhase4();
+                }
+              }}
               className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
             >
-              Zatvori
+              Pređi na Fazu 4: Seiketsu (Standardizovati)
             </motion.button>
           </motion.div>
         </motion.div>
