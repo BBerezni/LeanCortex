@@ -41,9 +41,10 @@ const standardizationRules: StandardizationRule[] = [
 
 interface SeiketsuStageProps {
   tools: SeisoTool[];
+  onTransitionToPhase5?: () => void;
 }
 
-export function SeiketsuStage({ tools }: SeiketsuStageProps) {
+export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProps) {
   const [rules, setRules] = useState<StandardizationRule[]>(standardizationRules);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
@@ -285,10 +286,13 @@ export function SeiketsuStage({ tools }: SeiketsuStageProps) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setShowSuccessModal(false)}
-              className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
+              onClick={() => {
+                setShowSuccessModal(false);
+                onTransitionToPhase5?.();
+              }}
+              className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
             >
-              Zatvori
+              Bravo! Pređi na poslednji korak: Shitsuke (Održavati)
             </motion.button>
           </motion.div>
         </motion.div>

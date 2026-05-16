@@ -632,8 +632,8 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
           ) : (
             <>
               <li>Postavite svaki predmet na njegovu označenu siluetu na Shadowboard-u</li>
-              <li>Pratite labele ispod silueta kako biste osigurali tačnost</li>
-              <li>Cilj je da svaki alat ima svoje 'domaćinstvo' (mesto)</li>
+              <li>Pratite oznake ispod silueta kako biste osigurali tačnost.</li>
+              <li>Cilj je da svaki alat ima svoje odgovarajuće mesto.</li>
               <li>Organizovan radni prostor smanjuje vreme traženja alata</li>
             </>
           )}
