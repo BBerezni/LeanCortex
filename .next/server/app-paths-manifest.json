@@ -1,6 +1,5 @@
 {
-  "/_not-found": "app/_not-found.js",
-  "/moduli/5s/page": "app/moduli/5s/page.js",
   "/page": "app/page.js",
-  "/moduli/page": "app/moduli/page.js"
+  "/moduli/page": "app/moduli/page.js",
+  "/moduli/smed/page": "app/moduli/smed/page.js"
 }

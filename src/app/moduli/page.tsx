@@ -43,8 +43,8 @@ const modules = [
     description: 'Brza promena alata',
     icon: Users,
     color: 'from-purple-600 to-purple-800',
-    active: false,
-    link: '' as const
+    active: true,
+    link: '/moduli/smed' as const
   },
   {
     id: 'poka-yoke',
