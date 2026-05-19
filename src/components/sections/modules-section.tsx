@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Layers, TrendingUp, Users, Target } from 'lucide-react'
+import { ArrowRight, Layers, TrendingUp, Users, Target, Kanban, Shield, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const modules = [
@@ -17,13 +17,13 @@ const modules = [
     difficulty: 'Početni nivo'
   },
   {
-    id: 'kaizen',
-    title: 'Kaizen',
-    description: 'Kontinuirano poboljšanje kroz male, postupne promene koje dovode do velikih rezultata.',
-    icon: TrendingUp,
-    color: 'text-green-600',
-    bgColor: 'bg-green-50',
-    features: ['PDCA ciklus', 'Gemba walks', 'Sugestije zaposlenih', 'Kaizen eventi'],
+    id: 'smed',
+    title: 'SMED',
+    description: 'Single-Minute Exchange of Die - brza promena alata i podešavanja opreme.',
+    icon: Users,
+    color: 'text-purple-600',
+    bgColor: 'bg-purple-50',
+    features: ['Separacija', 'Konverzija', 'Standardizacija', 'Merenje vremena'],
     difficulty: 'Srednji nivo'
   },
   {
@@ -37,14 +37,44 @@ const modules = [
     difficulty: 'Napredni nivo'
   },
   {
-    id: 'smed',
-    title: 'SMED',
-    description: 'Single-Minute Exchange of Die - brza promena alata i podešavanja opreme.',
-    icon: Users,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-50',
-    features: ['Separacija', 'Konverzija', 'Standardizacija', 'Merenje vremena'],
+    id: 'kaizen',
+    title: 'Kaizen',
+    description: 'Kontinuirano poboljšanje kroz male, postupne promene koje dovode do velikih rezultata.',
+    icon: TrendingUp,
+    color: 'text-green-600',
+    bgColor: 'bg-green-50',
+    features: ['PDCA ciklus', 'Gemba walks', 'Sugestije zaposlenih', 'Kaizen eventi'],
     difficulty: 'Srednji nivo'
+  },
+  {
+    id: 'kanban',
+    title: 'Kanban',
+    description: 'Sistem vizuelnog menadžmenta koji kontroliše tok materijala i informacija.',
+    icon: Kanban,
+    color: 'text-cyan-600',
+    bgColor: 'bg-cyan-50',
+    features: ['Pull sistem', 'Kanban kartice', 'WIP limiti', 'Just-in-Time'],
+    difficulty: 'Srednji nivo'
+  },
+  {
+    id: 'poka-yoke',
+    title: 'Poka-Yoke',
+    description: 'Mehanizmi za sprečavanje grešaka kroz dizajn procesa i proizvoda.',
+    icon: Shield,
+    color: 'text-rose-600',
+    bgColor: 'bg-rose-50',
+    features: ['Detekcija grešaka', 'Prevencija', 'Dizajn za sigurnost', 'Automatizacija'],
+    difficulty: 'Napredni nivo'
+  },
+  {
+    id: 'jidoka',
+    title: 'Jidoka',
+    description: 'Automatizacija sa ljudskom inteligencijom - zaustavljanje linije pri problemu.',
+    icon: AlertCircle,
+    color: 'text-amber-600',
+    bgColor: 'bg-amber-50',
+    features: ['Andon sistemi', 'Autonomacija', 'Kvalitet na izvoru', 'Problem solving'],
+    difficulty: 'Napredni nivo'
   }
 ]
 
@@ -69,7 +99,7 @@ export function ModulesSection() {
         </motion.div>
 
         {/* Modules Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
           {modules.map((module, index) => (
             <motion.div
               key={module.id}
@@ -128,30 +158,6 @@ export function ModulesSection() {
           ))}
         </div>
 
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          className="text-center bg-gradient-to-r from-lean-blue to-lean-green rounded-2xl p-12 text-white"
-        >
-          <h3 className="text-2xl font-bold mb-4">
-            Spremni da transformišete vaše procese?
-          </h3>
-          <p className="text-lg mb-8 text-white/90">
-            Pridružite se stotinama kompanija koje su već poboljšale efikasnost kroz Lean metodologiju.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-white text-lean-blue hover:bg-gray-100">
-              Započnite besplatno
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-lean-blue">
-              Kontaktirajte nas
-            </Button>
-          </div>
-        </motion.div>
       </div>
     </section>
   )

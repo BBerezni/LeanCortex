@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Brain, Mail, Phone, MapPin } from 'lucide-react'
+import { Brain, Mail, MapPin } from 'lucide-react'
 
 export function Footer() {
   return (
@@ -77,15 +77,14 @@ export function Footer() {
             <ul className="space-y-2 text-sm">
               <li className="flex items-center space-x-2 text-muted-foreground">
                 <Mail className="h-4 w-4" />
-                <span>info@leancortex.rs</span>
-              </li>
-              <li className="flex items-center space-x-2 text-muted-foreground">
-                <Phone className="h-4 w-4" />
-                <span>+381 11 123 456</span>
+                <span>bberezni@gmail.com</span>
               </li>
               <li className="flex items-center space-x-2 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>Beograd, Srbija</span>
+                <span>Novi Sad, Srbija</span>
+              </li>
+              <li className="flex items-center space-x-2 text-muted-foreground">
+                <span>Autor: Bojan Berežni</span>
               </li>
             </ul>
           </div>
