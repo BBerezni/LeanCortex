@@ -3,12 +3,51 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft, Award, ShieldCheck, Medal, Sparkles } from 'lucide-react';
+import { ArrowLeft, CheckCircle, Sparkles } from 'lucide-react';
 import { SortStage } from './sort-stage';
 import { SeisoStage, SeisoTool } from './seiso-stage';
 import { SeiketsuStage } from './seiketsu-stage';
+import { Button } from '@/components/ui/button';
+
+// Language dictionary
+const translations = {
+  sr: {
+    backToModules: 'Nazad na module',
+    title: 'Igra 5S Metodologije',
+    subtitle: 'Naučite i vežbajte 5S metodologiju kroz interaktivne faze',
+    phase5Title: 'Faza 5: Shitsuke (Održavati)',
+    phase5Description: 'Čestitamo! Uspešno ste prošli kroz proces Sortiranja, Organizacije, Čišćenja i Standardizacije.',
+    congratulations: 'Čestitamo!',
+    successMessage: 'Uspešno ste završili sve faze 5S metodologije!',
+    resetSimulation: 'Ponovi simulaciju',
+    shitsukeTitle: 'Shitsuke (Održavanje)',
+    shitsukeDescription1: 'Shitsuke (Održavanje) predstavlja krunu 5S metodologije i podrazumeva pretvaranje pravila u svakodnevnu naviku kroz samodisciplinu.',
+    shitsukeDescription2: 'Bez ove faze, radni prostor se brzo vraća u prvobitni nered.',
+    shitsukeDescription3: 'Čestitamo na uspešno završenoj simulaciji! Vaš prostor je sada primer Industry 4.0 ekosistema.',
+    simulationResetting: 'Simulacija se resetuje...'
+  },
+  en: {
+    backToModules: 'Back to Modules',
+    title: '5S Methodology Game',
+    subtitle: 'Learn and practice 5S methodology through interactive phases',
+    phase5Title: 'Phase 5: Shitsuke (Sustain)',
+    phase5Description: 'Congratulations! You have successfully completed the process of Sorting, Organizing, Cleaning, and Standardizing.',
+    congratulations: 'Congratulations!',
+    successMessage: 'You have successfully completed all phases of the 5S methodology!',
+    resetSimulation: 'Repeat Simulation',
+    shitsukeTitle: 'Shitsuke (Sustain)',
+    shitsukeDescription1: 'Shitsuke (Sustain) represents the crown of the 5S methodology and implies turning rules into daily habits through self-discipline.',
+    shitsukeDescription2: 'Without this phase, the workspace quickly returns to its original disorder.',
+    shitsukeDescription3: 'Congratulations on successfully completing the simulation! Your space is now an example of an Industry 4.0 ecosystem.',
+    simulationResetting: 'Simulation is resetting...'
+  }
+};
+
+type Language = 'sr' | 'en';
 
 export function FiveSGame() {
+  const [language, setLanguage] = useState<Language>('sr');
+  const t = translations[language];
   const [currentPhase, setCurrentPhase] = useState(1); // 1: Sort, 2: Seiton, 3: Seiso, 4: Seiketsu, 5: Shitsuke
   const [phase3Tools, setPhase3Tools] = useState<SeisoTool[]>([]);
   const [showCelebration, setShowCelebration] = useState(false);
@@ -24,6 +63,10 @@ export function FiveSGame() {
 
   const handleTransitionToPhase5 = () => {
     setCurrentPhase(5);
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === 'sr' ? 'en' : 'sr');
   };
 
   const handleReset = () => {
@@ -63,18 +106,25 @@ export function FiveSGame() {
                 className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-white transition-colors hover:bg-white/20"
               >
                 <ArrowLeft className="h-4 w-4" />
-                <span className="text-sm">Nazad na module</span>
+                <span className="text-sm">{t.backToModules}</span>
               </motion.button>
             </Link>
             <div className="flex-1 text-center">
               <h1 className="text-2xl font-bold text-white sm:text-4xl">
-                Igra 5S Metodologije
+                {t.title}
               </h1>
               <p className="mt-2 text-sm text-gray-300 sm:text-lg">
-                Naučite i vežbajte 5S metodologiju kroz interaktivne faze
+                {t.subtitle}
               </p>
             </div>
-            <div className="w-24" /> {/* Spacer for center alignment */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={toggleLanguage}
+              className="border-white/30 bg-white/10 text-white hover:bg-white/20"
+            >
+              {language === 'sr' ? 'EN' : 'SR'}
+            </Button>
           </div>
         </motion.div>
 
@@ -94,72 +144,11 @@ export function FiveSGame() {
                 className="mb-8 text-center"
               >
                 <h2 className="text-3xl font-bold text-white sm:text-4xl">
-                  Faza 5: Shitsuke (Održavati)
+                  {t.phase5Title}
                 </h2>
                 <p className="mt-4 text-lg text-gray-300 sm:text-xl">
-                  Čestitamo! Uspešno ste prošli kroz proces Sortiranja, Organizacije, Čišćenja i Standardizacije.
+                  {t.phase5Description}
                 </p>
-              </motion.div>
-
-              {/* 5S Certificate */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="mb-8 rounded-2xl border-4 border-green-500/50 bg-gradient-to-br from-green-900/80 to-blue-900/80 p-6 backdrop-blur-lg shadow-2xl sm:p-8"
-              >
-                <div className="flex flex-col items-center">
-                  {/* Certificate Header */}
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.6, type: 'spring' }}
-                    className="mb-6 flex items-center gap-4"
-                  >
-                    <div className="rounded-full bg-yellow-500/20 p-4">
-                      <Award className="h-12 w-12 text-yellow-400" />
-                    </div>
-                    <div className="rounded-full bg-green-500/20 p-4">
-                      <ShieldCheck className="h-12 w-12 text-green-400" />
-                    </div>
-                    <div className="rounded-full bg-blue-500/20 p-4">
-                      <Medal className="h-12 w-12 text-blue-400" />
-                    </div>
-                  </motion.div>
-
-                  {/* Certificate Title */}
-                  <h3 className="mb-6 text-center text-2xl font-bold text-yellow-300 sm:text-3xl">
-                    5S Sertifikat Radne Stanice
-                  </h3>
-
-                  {/* Certificate Content */}
-                  <div className="w-full space-y-4 rounded-xl bg-white/5 p-6 border border-white/10">
-                    <div className="flex justify-between border-b border-white/20 pb-3">
-                      <span className="text-gray-300">Projekat:</span>
-                      <span className="font-semibold text-white">LeanCortex Radna Stanica</span>
-                    </div>
-                    <div className="flex justify-between border-b border-white/20 pb-3">
-                      <span className="text-gray-300">Status:</span>
-                      <span className="font-semibold text-green-300">100% Optimizovano, Očišćeno i Standardizovano</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-300">Sertifikat izdat za:</span>
-                      <span className="font-semibold text-white">Korisnika / Polaznika</span>
-                    </div>
-                  </div>
-
-                  {/* Certificate Badge */}
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.8 }}
-                    className="mt-6 flex items-center gap-2 rounded-full bg-gradient-to-r from-yellow-500/20 to-green-500/20 px-6 py-3 border border-yellow-500/30"
-                  >
-                    <Sparkles className="h-5 w-5 text-yellow-400" />
-                    <span className="font-semibold text-yellow-300">Industry 4.0 Ekosistem</span>
-                    <Sparkles className="h-5 w-5 text-yellow-400" />
-                  </motion.div>
-                </div>
               </motion.div>
 
               {/* Final Action Buttons */}
@@ -167,25 +156,22 @@ export function FiveSGame() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7 }}
-                className="flex flex-col gap-4 sm:flex-row sm:justify-center"
+                className="grid grid-cols-2 gap-3 max-w-md mx-auto"
               >
-                <Link href="/moduli">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-8 py-4 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25 text-lg sm:w-auto"
-                  >
-                    Završi obuku
-                  </motion.button>
-                </Link>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
+                <Button
                   onClick={handleReset}
-                  className="w-full rounded-xl border-2 border-white/30 bg-white/10 px-8 py-4 font-semibold text-white shadow-lg transition-all hover:bg-white/20 text-lg sm:w-auto"
+                  className="w-full bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white font-semibold"
                 >
-                  Pokreni ponovo
-                </motion.button>
+                  {t.resetSimulation}
+                </Button>
+                <Link href="/moduli">
+                  <Button
+                    variant="outline"
+                    className="w-full border-slate-600 bg-slate-800/50 text-gray-300 hover:bg-slate-700 hover:text-white"
+                  >
+                    {t.backToModules}
+                  </Button>
+                </Link>
               </motion.div>
 
               {/* Phase 5 Instructions */}
@@ -196,12 +182,12 @@ export function FiveSGame() {
                 className="mt-8 rounded-lg bg-white/10 p-4 backdrop-blur-sm sm:p-6"
               >
                 <h4 className="mb-3 text-lg font-semibold text-white sm:text-xl">
-                  Shitsuke (Održavanje)
+                  {t.shitsukeTitle}
                 </h4>
                 <ul className="list-inside list-disc space-y-2 text-sm text-gray-300 sm:text-base">
-                  <li>Shitsuke (Održavanje) predstavlja krunu 5S metodologije i podrazumeva pretvaranje pravila u svakodnevnu naviku kroz samodisciplinu.</li>
-                  <li>Bez ove faze, radni prostor se brzo vraća u prvobitni nered.</li>
-                  <li>Čestitamo na uspešno završenoj simulaciji! Vaš prostor je sada primer Industry 4.0 ekosistema.</li>
+                  <li>{t.shitsukeDescription1}</li>
+                  <li>{t.shitsukeDescription2}</li>
+                  <li>{t.shitsukeDescription3}</li>
                 </ul>
               </motion.div>
 
@@ -219,12 +205,12 @@ export function FiveSGame() {
                     transition={{ type: 'spring', damping: 20 }}
                     className="text-center"
                   >
-                    <Sparkles className="mx-auto h-24 w-24 text-yellow-400" />
+                    <CheckCircle className="mx-auto h-24 w-24 text-green-400" />
                     <h3 className="mt-4 text-3xl font-bold text-white">
-                      Čestitamo!
+                      {t.congratulations}
                     </h3>
                     <p className="mt-2 text-xl text-gray-300">
-                      Simulacija se resetuje...
+                      {t.simulationResetting}
                     </p>
                   </motion.div>
                 </motion.div>

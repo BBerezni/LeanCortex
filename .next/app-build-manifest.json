@@ -16,10 +16,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/moduli/page.js"
     ],
-    "/not-found": [
+    "/moduli/5s/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
+      "static/chunks/app/moduli/5s/page.js"
+    ],
+    "/moduli/smed/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/moduli/smed/page.js"
     ]
   }
 }
