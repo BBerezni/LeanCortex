@@ -4,8 +4,37 @@ import { motion } from 'framer-motion'
 import { ArrowRight, MousePointer2, Gamepad2, Layers } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
+import { useLanguage } from '@/context/LanguageContext'
+
+// Language dictionary for hero section
+const heroTranslations = {
+  sr: {
+    title: 'LeanCortex — Interaktivna platforma za edukaciju i simulaciju Lean tehnologija',
+    subtitle: 'Savladajte alate operativne izvrsnosti kroz praktične, vizuelne i dinamične scenarije prilagođene modernom inženjerskom menadžmentu.',
+    exploreModules: 'Istražite Lean module',
+    interactivity: 'Interaktivnost',
+    interactivityDesc: 'Učenje kroz direktnu manipulaciju objektima i procesima.',
+    gamification: 'Gejmifikacija',
+    gamificationDesc: 'Elementi igre i simulacije stvarnih industrijskih problema za lakše pamćenje.',
+    completeness: 'Kompletnost',
+    completenessDesc: 'Obuhvaćeno svih 7 ključnih Lean alata na jednom mestu.'
+  },
+  en: {
+    title: 'LeanCortex — Interactive Platform for Lean Technology Education and Simulation',
+    subtitle: 'Master operational excellence tools through practical, visual, and dynamic scenarios tailored for modern engineering management.',
+    exploreModules: 'Explore Lean Modules',
+    interactivity: 'Interactivity',
+    interactivityDesc: 'Learning through direct manipulation of objects and processes.',
+    gamification: 'Gamification',
+    gamificationDesc: 'Game elements and simulation of real industrial problems for easier retention.',
+    completeness: 'Completeness',
+    completenessDesc: 'All 7 key Lean tools covered in one place.'
+  }
+}
 
 export function HeroSection() {
+  const { language } = useLanguage()
+  const t = heroTranslations[language]
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-lean-blue via-blue-600 to-lean-green text-white">
       {/* Background Pattern */}
@@ -32,7 +61,7 @@ export function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="text-3xl lg:text-5xl font-bold leading-snug"
               >
-                LeanCortex — Interaktivna platforma za edukaciju i simulaciju Lean tehnologija
+                {t.title}
               </motion.h1>
               
               <motion.p
@@ -41,7 +70,7 @@ export function HeroSection() {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-lg lg:text-xl text-white/90 max-w-lg"
               >
-                Savladajte alate operativne izvrsnosti kroz praktične, vizuelne i dinamične scenarije prilagođene modernom inženjerskom menadžmentu.
+                {t.subtitle}
               </motion.p>
             </div>
 
@@ -52,7 +81,7 @@ export function HeroSection() {
             >
               <Link href="/moduli">
                 <Button size="lg" className="bg-white text-lean-blue hover:bg-gray-100">
-                  Istražite Lean module
+                  {t.exploreModules}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -67,18 +96,18 @@ export function HeroSection() {
             >
               <div className="text-center">
                 <MousePointer2 className="h-8 w-8 text-lean-green mx-auto mb-2" />
-                <div className="text-lg font-semibold text-white">Interaktivnost</div>
-                <div className="text-sm text-white/80">Učenje kroz direktnu manipulaciju objektima i procesima.</div>
+                <div className="text-lg font-semibold text-white">{t.interactivity}</div>
+                <div className="text-sm text-white/80">{t.interactivityDesc}</div>
               </div>
               <div className="text-center">
                 <Gamepad2 className="h-8 w-8 text-lean-green mx-auto mb-2" />
-                <div className="text-lg font-semibold text-white">Gejmifikacija</div>
-                <div className="text-sm text-white/80">Elementi igre i simulacije stvarnih industrijskih problema za lakše pamćenje.</div>
+                <div className="text-lg font-semibold text-white">{t.gamification}</div>
+                <div className="text-sm text-white/80">{t.gamificationDesc}</div>
               </div>
               <div className="text-center">
                 <Layers className="h-8 w-8 text-lean-green mx-auto mb-2" />
-                <div className="text-lg font-semibold text-white">Kompletnost</div>
-                <div className="text-sm text-white/80">Obuhvaćeno svih 7 ključnih Lean alata na jednom mestu.</div>
+                <div className="text-lg font-semibold text-white">{t.completeness}</div>
+                <div className="text-sm text-white/80">{t.completenessDesc}</div>
               </div>
             </motion.div>
           </motion.div>

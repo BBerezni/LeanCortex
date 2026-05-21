@@ -8,6 +8,7 @@ import { SortStage } from './sort-stage';
 import { SeisoStage, SeisoTool } from './seiso-stage';
 import { SeiketsuStage } from './seiketsu-stage';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/context/LanguageContext';
 
 // Language dictionary
 const translations = {
@@ -43,10 +44,8 @@ const translations = {
   }
 };
 
-type Language = 'sr' | 'en';
-
 export function FiveSGame() {
-  const [language, setLanguage] = useState<Language>('sr');
+  const { language, toggleLanguage } = useLanguage();
   const t = translations[language];
   const [currentPhase, setCurrentPhase] = useState(1); // 1: Sort, 2: Seiton, 3: Seiso, 4: Seiketsu, 5: Shitsuke
   const [phase3Tools, setPhase3Tools] = useState<SeisoTool[]>([]);
@@ -63,10 +62,6 @@ export function FiveSGame() {
 
   const handleTransitionToPhase5 = () => {
     setCurrentPhase(5);
-  };
-
-  const toggleLanguage = () => {
-    setLanguage(prev => prev === 'sr' ? 'en' : 'sr');
   };
 
   const handleReset = () => {

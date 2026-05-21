@@ -1,6 +1,3 @@
 {
-  "/page": "app/page.js",
-  "/moduli/5s/page": "app/moduli/5s/page.js",
-  "/moduli/page": "app/moduli/page.js",
-  "/moduli/smed/page": "app/moduli/smed/page.js"
+  "/moduli/vsm/page": "app/moduli/vsm/page.js"
 }

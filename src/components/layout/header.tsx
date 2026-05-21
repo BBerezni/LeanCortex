@@ -6,9 +6,26 @@ import { motion } from 'framer-motion'
 import { Menu, X, Brain } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '@/components/ui/navigation-menu'
+import { useLanguage } from '@/context/LanguageContext'
+
+// Language dictionary for header
+const headerTranslations = {
+  sr: {
+    home: 'Početna',
+    modules: 'Moduli',
+    about: 'O nama'
+  },
+  en: {
+    home: 'Home',
+    modules: 'Modules',
+    about: 'About Us'
+  }
+}
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { language, toggleLanguage } = useLanguage()
+  const t = headerTranslations[language]
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
@@ -27,37 +44,56 @@ export function Header() {
             <NavigationMenuItem>
               <Link href="/" legacyBehavior passHref>
                 <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                  Početna
+                  {t.home}
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/moduli" legacyBehavior passHref>
                 <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                  Moduli
+                  {t.modules}
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
               <Link href="/o-nama" legacyBehavior passHref>
                 <NavigationMenuLink className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50">
-                  O nama
+                  {t.about}
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
 
+        {/* Language Toggle */}
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={toggleLanguage}
+          className="hidden md:flex border-slate-600 bg-slate-800/50 text-gray-300 hover:bg-slate-700 hover:text-white"
+        >
+          {language === 'sr' ? 'EN' : 'SR'}
+        </Button>
+
 
         {/* Mobile Menu Button */}
-        <Button
-          variant="ghost"
-          size="sm"
-          className="md:hidden"
-          onClick={toggleMenu}
-        >
-          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+        <div className="flex items-center gap-2 md:hidden">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={toggleLanguage}
+            className="border-slate-600 bg-slate-800/50 text-gray-300 hover:bg-slate-700 hover:text-white"
+          >
+            {language === 'sr' ? 'EN' : 'SR'}
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -70,13 +106,13 @@ export function Header() {
         >
           <div className="container py-4 space-y-3">
             <Link href="/" className="block py-2 text-sm font-medium hover:text-lean-blue">
-              Početna
+              {t.home}
             </Link>
             <Link href="/moduli" className="block py-2 text-sm font-medium hover:text-lean-blue">
-              Moduli
+              {t.modules}
             </Link>
             <Link href="/o-nama" className="block py-2 text-sm font-medium hover:text-lean-blue">
-              O nama
+              {t.about}
             </Link>
           </div>
         </motion.div>

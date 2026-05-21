@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft, Clock, AlertTriangle, Wrench, Package, Settings, ChevronRight, Play, Clipboard, CheckCircle, XCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useLanguage } from '@/context/LanguageContext';
 
 // Language dictionary
 const translations = {
@@ -70,7 +71,8 @@ const translations = {
     genericError: 'Pogrešna klasifikacija. Pokušajte ponovo.',
     congratulations: 'Čestitamo!',
     successMessage: 'Uspešno ste smanjili vreme promene alata na 08:30 minuta!',
-    resetSimulation: 'Ponovi simulaciju'
+    resetSimulation: 'Ponovi simulaciju',
+    tasksClassified: 'zadataka klasifikovano'
   },
   en: {
     backToModules: 'Back to Modules',
@@ -134,7 +136,8 @@ const translations = {
     genericError: 'Incorrect classification. Try again.',
     congratulations: 'Congratulations!',
     successMessage: 'Successfully reduced changeover time to 08:30 minutes!',
-    resetSimulation: 'Reset Simulation'
+    resetSimulation: 'Reset Simulation',
+    tasksClassified: 'tasks classified'
   }
 };
 
@@ -148,7 +151,7 @@ const correctClassifications: TaskStatus[] = ['external', 'external', 'external'
 const timerReductions: number[] = [4, 8, 5, 11, 0, 0, 0, 0, 0, 0, 0, 8.5];
 
 export default function SmedPage() {
-  const [language, setLanguage] = useState<Language>('sr');
+  const { language } = useLanguage();
   const t = translations[language];
   const [isSimulating, setIsSimulating] = useState(false);
   const [taskStatus, setTaskStatus] = useState<TaskStatus[]>(Array(12).fill('unassigned'));
@@ -156,10 +159,6 @@ export default function SmedPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [activeTaskIndex, setActiveTaskIndex] = useState<number | null>(null);
-
-  const toggleLanguage = () => {
-    setLanguage(prev => prev === 'sr' ? 'en' : 'sr');
-  };
 
   const startSimulation = () => {
     setIsSimulating(true);
@@ -281,15 +280,6 @@ export default function SmedPage() {
                 {t.backToModules}
               </Button>
             </Link>
-            
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleLanguage}
-              className="border-slate-600 bg-slate-800/50 text-gray-300 hover:bg-slate-700 hover:text-white"
-            >
-              {language === 'sr' ? 'EN' : 'SR'}
-            </Button>
           </div>
           
           <div className="mt-6 text-center">
@@ -572,7 +562,7 @@ export default function SmedPage() {
                 <div className="mt-4 rounded-lg bg-slate-800/50 p-3 border border-slate-700">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-400">
-                      {taskStatus.filter(s => s !== 'unassigned').length} / 12 {language === 'sr' ? 'zadataka klasifikovano' : 'tasks classified'}
+                      {taskStatus.filter(s => s !== 'unassigned').length} / 12 {t.tasksClassified}
                     </span>
                     <span className="text-purple-400 font-semibold">
                       {Math.round((taskStatus.filter(s => s !== 'unassigned').length / 12) * 100)}%

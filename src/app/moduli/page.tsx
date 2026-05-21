@@ -4,78 +4,168 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowLeft, Lock, Layers, TrendingUp, Target, Users, Shield, Scale, Activity } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLanguage } from '@/context/LanguageContext'
 
 export const viewport = {
   themeColor: '#0f172a',
 }
 
-const modules = [
-  {
-    id: '5s',
-    title: '5S Metodologija',
-    description: 'Organizovati (Seiton) - Pravo mesto za sve i sve na svom mestu',
-    icon: Layers,
-    color: 'from-blue-600 to-blue-800',
-    active: true,
-    link: '/moduli/5s' as const
+// Language dictionary for modules dashboard
+const dashboardTranslations = {
+  sr: {
+    backToHome: 'Nazad na početnu',
+    title: 'Lean Moduli',
+    subtitle: 'Interaktivni alati za implementaciju Lean metodologije',
+    start: 'Zapocnite',
+    comingSoon: 'Uskoro',
+    developmentMap: 'Mapa razvoja',
+    developmentMapDesc: 'Trenutno je dostupan modul 5S Metodologija. Ostali moduli su u razvoju i biće objavljeni uskoro. Svaki modul je dizajniran da pruži praktična znanja kroz interaktivne simulacije.',
+    modules: [
+      {
+        id: '5s',
+        title: '5S Metodologija',
+        description: 'Organizovati (Seiton) - Pravo mesto za sve i sve na svom mestu',
+        icon: Layers,
+        color: 'from-blue-600 to-blue-800',
+        active: true,
+        link: '/moduli/5s' as const
+      },
+      {
+        id: 'kaizen',
+        title: 'Kaizen',
+        description: 'Kontinuirano poboljšanje procesa',
+        icon: TrendingUp,
+        color: 'from-green-600 to-green-800',
+        active: false,
+        link: '' as const
+      },
+      {
+        id: 'vsm',
+        title: 'VSM Mapiranje',
+        description: 'Vrednosno mapiranje tokova',
+        icon: Target,
+        color: 'from-orange-600 to-orange-800',
+        active: true,
+        link: '/moduli/vsm' as const
+      },
+      {
+        id: 'smed',
+        title: 'SMED',
+        description: 'Brza promena alata',
+        icon: Users,
+        color: 'from-purple-600 to-purple-800',
+        active: true,
+        link: '/moduli/smed' as const
+      },
+      {
+        id: 'poka-yoke',
+        title: 'Poka Yoke',
+        description: 'Sprečavanje grešaka',
+        icon: Shield,
+        color: 'from-cyan-600 to-cyan-800',
+        active: false,
+        link: '' as const
+      },
+      {
+        id: 'heijunka',
+        title: 'Heijunka',
+        description: 'Balansiranje produkcije',
+        icon: Scale,
+        color: 'from-pink-600 to-pink-800',
+        active: false,
+        link: '' as const
+      },
+      {
+        id: 'oee',
+        title: 'OEE',
+        description: 'Ukupna efikasnost opreme',
+        icon: Activity,
+        color: 'from-red-600 to-red-800',
+        active: false,
+        link: '' as const
+      }
+    ]
   },
-  {
-    id: 'kaizen',
-    title: 'Kaizen',
-    description: 'Kontinuirano poboljšanje procesa',
-    icon: TrendingUp,
-    color: 'from-green-600 to-green-800',
-    active: false,
-    link: '' as const
-  },
-  {
-    id: 'vsm',
-    title: 'VSM Mapiranje',
-    description: 'Vrednosno mapiranje tokova',
-    icon: Target,
-    color: 'from-orange-600 to-orange-800',
-    active: false,
-    link: '' as const
-  },
-  {
-    id: 'smed',
-    title: 'SMED',
-    description: 'Brza promena alata',
-    icon: Users,
-    color: 'from-purple-600 to-purple-800',
-    active: true,
-    link: '/moduli/smed' as const
-  },
-  {
-    id: 'poka-yoke',
-    title: 'Poka Yoke',
-    description: 'Sprečavanje grešaka',
-    icon: Shield,
-    color: 'from-cyan-600 to-cyan-800',
-    active: false,
-    link: '' as const
-  },
-  {
-    id: 'heijunka',
-    title: 'Heijunka',
-    description: 'Balansiranje produkcije',
-    icon: Scale,
-    color: 'from-pink-600 to-pink-800',
-    active: false,
-    link: '' as const
-  },
-  {
-    id: 'oee',
-    title: 'OEE',
-    description: 'Ukupna efikasnost opreme',
-    icon: Activity,
-    color: 'from-red-600 to-red-800',
-    active: false,
-    link: '' as const
+  en: {
+    backToHome: 'Back to Home',
+    title: 'Lean Modules',
+    subtitle: 'Interactive tools for Lean methodology implementation',
+    start: 'Start',
+    comingSoon: 'Coming Soon',
+    developmentMap: 'Development Roadmap',
+    developmentMapDesc: 'Currently, the 5S Methodology module is available. Other modules are under development and will be released soon. Each module is designed to provide practical knowledge through interactive simulations.',
+    modules: [
+      {
+        id: '5s',
+        title: '5S Methodology',
+        description: 'Set in Order (Seiton) - A place for everything and everything in its place',
+        icon: Layers,
+        color: 'from-blue-600 to-blue-800',
+        active: true,
+        link: '/moduli/5s' as const
+      },
+      {
+        id: 'kaizen',
+        title: 'Kaizen',
+        description: 'Continuous process improvement',
+        icon: TrendingUp,
+        color: 'from-green-600 to-green-800',
+        active: false,
+        link: '' as const
+      },
+      {
+        id: 'vsm',
+        title: 'VSM Mapping',
+        description: 'Value stream mapping',
+        icon: Target,
+        color: 'from-orange-600 to-orange-800',
+        active: true,
+        link: '/moduli/vsm' as const
+      },
+      {
+        id: 'smed',
+        title: 'SMED',
+        description: 'Rapid tool change',
+        icon: Users,
+        color: 'from-purple-600 to-purple-800',
+        active: true,
+        link: '/moduli/smed' as const
+      },
+      {
+        id: 'poka-yoke',
+        title: 'Poka Yoke',
+        description: 'Error prevention',
+        icon: Shield,
+        color: 'from-cyan-600 to-cyan-800',
+        active: false,
+        link: '' as const
+      },
+      {
+        id: 'heijunka',
+        title: 'Heijunka',
+        description: 'Production leveling',
+        icon: Scale,
+        color: 'from-pink-600 to-pink-800',
+        active: false,
+        link: '' as const
+      },
+      {
+        id: 'oee',
+        title: 'OEE',
+        description: 'Overall equipment effectiveness',
+        icon: Activity,
+        color: 'from-red-600 to-red-800',
+        active: false,
+        link: '' as const
+      }
+    ]
   }
-]
+}
 
 export default function ModuliPage() {
+  const { language } = useLanguage()
+  const t = dashboardTranslations[language]
+  const modules = t.modules
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900">
       <div className="container mx-auto px-4 py-8">
@@ -89,15 +179,15 @@ export default function ModuliPage() {
           <Link href="/">
             <Button variant="ghost" className="mb-6 text-gray-300 hover:text-white hover:bg-slate-800">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Nazad na početnu
+              {t.backToHome}
             </Button>
           </Link>
           
           <h1 className="text-4xl font-bold text-white sm:text-5xl">
-            Lean Moduli
+            {t.title}
           </h1>
           <p className="mt-2 text-lg text-gray-400 sm:text-xl">
-            Interaktivni alati za implementaciju Lean metodologije
+            {t.subtitle}
           </p>
         </motion.div>
 
@@ -134,7 +224,7 @@ export default function ModuliPage() {
                       </p>
                       
                       <div className="mt-4 flex items-center text-sm font-semibold text-blue-400">
-                        Zapocnite
+                        {t.start}
                         <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
                       </div>
                     </div>
@@ -164,7 +254,7 @@ export default function ModuliPage() {
                     </p>
                     
                     <div className="mt-4 inline-flex rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-gray-500">
-                      Uskoro
+                      {t.comingSoon}
                     </div>
                   </div>
                 </motion.div>
@@ -181,11 +271,10 @@ export default function ModuliPage() {
           className="mt-12 rounded-xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm"
         >
           <h3 className="mb-3 text-lg font-semibold text-white">
-            Mapa razvoja
+            {t.developmentMap}
           </h3>
           <p className="text-sm text-gray-400">
-            Trenutno je dostupan modul 5S Metodologija. Ostali moduli su u razvoju i biće objavljeni uskoro. 
-            Svaki modul je dizajniran da pruži praktična znanja kroz interaktivne simulacije.
+            {t.developmentMapDesc}
           </p>
         </motion.div>
       </div>

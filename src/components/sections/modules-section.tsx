@@ -4,81 +4,172 @@ import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight, Layers, TrendingUp, Users, Target, Kanban, Shield, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLanguage } from '@/context/LanguageContext'
 
-const modules = [
-  {
-    id: '5s',
-    title: '5S Metodologija',
-    description: 'Organizujte radni prostor kroz pet principa: Sortiraj, Sistematično, Čisto, Standardizuj, Održavaj.',
-    icon: Layers,
-    color: 'text-blue-600',
-    bgColor: 'bg-blue-50',
-    features: ['Sortiranje', 'Sistematičnost', 'Čistoća', 'Standardizacija', 'Održavanje'],
-    difficulty: 'Početni nivo'
+// Language dictionary for modules section
+const modulesTranslations = {
+  sr: {
+    title: 'Lean Moduli za Vaš Razvoj',
+    subtitle: 'Svaki modul je dizajniran da pruži praktična znanja i veštine kroz interaktivne simulacije i realne scenarije.',
+    learnMore: 'Saznajte više',
+    more: '+{count} još',
+    modules: [
+      {
+        id: '5s',
+        title: '5S Metodologija',
+        description: 'Organizujte radni prostor kroz pet principa: Sortiraj, Sistematično, Čisto, Standardizuj, Održavaj.',
+        icon: Layers,
+        color: 'text-blue-600',
+        bgColor: 'bg-blue-50',
+        features: ['Sortiranje', 'Sistematičnost', 'Čistoća', 'Standardizacija', 'Održavanje'],
+        difficulty: 'Početni nivo'
+      },
+      {
+        id: 'smed',
+        title: 'SMED',
+        description: 'Single-Minute Exchange of Die - brza promena alata i podešavanja opreme.',
+        icon: Users,
+        color: 'text-purple-600',
+        bgColor: 'bg-purple-50',
+        features: ['Separacija', 'Konverzija', 'Standardizacija', 'Merenje vremena'],
+        difficulty: 'Srednji nivo'
+      },
+      {
+        id: 'vsm',
+        title: 'VSM Mapiranje',
+        description: 'Analizirajte i optimizujte vrednosne tokove da biste identifikovali gubitke.',
+        icon: Target,
+        color: 'text-orange-600',
+        bgColor: 'bg-orange-50',
+        features: ['Trenutno stanje', 'Buduće stanje', 'Identifikacija gubitaka', 'Akcion plan'],
+        difficulty: 'Napredni nivo'
+      },
+      {
+        id: 'kaizen',
+        title: 'Kaizen',
+        description: 'Kontinuirano poboljšanje kroz male, postupne promene koje dovode do velikih rezultata.',
+        icon: TrendingUp,
+        color: 'text-green-600',
+        bgColor: 'bg-green-50',
+        features: ['PDCA ciklus', 'Gemba walks', 'Sugestije zaposlenih', 'Kaizen eventi'],
+        difficulty: 'Srednji nivo'
+      },
+      {
+        id: 'kanban',
+        title: 'Kanban',
+        description: 'Sistem vizuelnog menadžmenta koji kontroliše tok materijala i informacija.',
+        icon: Kanban,
+        color: 'text-cyan-600',
+        bgColor: 'bg-cyan-50',
+        features: ['Pull sistem', 'Kanban kartice', 'WIP limiti', 'Just-in-Time'],
+        difficulty: 'Srednji nivo'
+      },
+      {
+        id: 'poka-yoke',
+        title: 'Poka-Yoke',
+        description: 'Mehanizmi za sprečavanje grešaka kroz dizajn procesa i proizvoda.',
+        icon: Shield,
+        color: 'text-rose-600',
+        bgColor: 'bg-rose-50',
+        features: ['Detekcija grešaka', 'Prevencija', 'Dizajn za sigurnost', 'Automatizacija'],
+        difficulty: 'Napredni nivo'
+      },
+      {
+        id: 'jidoka',
+        title: 'Jidoka',
+        description: 'Automatizacija sa ljudskom inteligencijom - zaustavljanje linije pri problemu.',
+        icon: AlertCircle,
+        color: 'text-amber-600',
+        bgColor: 'bg-amber-50',
+        features: ['Andon sistemi', 'Autonomacija', 'Kvalitet na izvoru', 'Problem solving'],
+        difficulty: 'Napredni nivo'
+      }
+    ]
   },
-  {
-    id: 'smed',
-    title: 'SMED',
-    description: 'Single-Minute Exchange of Die - brza promena alata i podešavanja opreme.',
-    icon: Users,
-    color: 'text-purple-600',
-    bgColor: 'bg-purple-50',
-    features: ['Separacija', 'Konverzija', 'Standardizacija', 'Merenje vremena'],
-    difficulty: 'Srednji nivo'
-  },
-  {
-    id: 'vsm',
-    title: 'VSM Mapiranje',
-    description: 'Analizirajte i optimizujte vrednosne tokove da biste identifikovali gubitke.',
-    icon: Target,
-    color: 'text-orange-600',
-    bgColor: 'bg-orange-50',
-    features: ['Trenutno stanje', 'Buduće stanje', 'Identifikacija gubitaka', 'Akcion plan'],
-    difficulty: 'Napredni nivo'
-  },
-  {
-    id: 'kaizen',
-    title: 'Kaizen',
-    description: 'Kontinuirano poboljšanje kroz male, postupne promene koje dovode do velikih rezultata.',
-    icon: TrendingUp,
-    color: 'text-green-600',
-    bgColor: 'bg-green-50',
-    features: ['PDCA ciklus', 'Gemba walks', 'Sugestije zaposlenih', 'Kaizen eventi'],
-    difficulty: 'Srednji nivo'
-  },
-  {
-    id: 'kanban',
-    title: 'Kanban',
-    description: 'Sistem vizuelnog menadžmenta koji kontroliše tok materijala i informacija.',
-    icon: Kanban,
-    color: 'text-cyan-600',
-    bgColor: 'bg-cyan-50',
-    features: ['Pull sistem', 'Kanban kartice', 'WIP limiti', 'Just-in-Time'],
-    difficulty: 'Srednji nivo'
-  },
-  {
-    id: 'poka-yoke',
-    title: 'Poka-Yoke',
-    description: 'Mehanizmi za sprečavanje grešaka kroz dizajn procesa i proizvoda.',
-    icon: Shield,
-    color: 'text-rose-600',
-    bgColor: 'bg-rose-50',
-    features: ['Detekcija grešaka', 'Prevencija', 'Dizajn za sigurnost', 'Automatizacija'],
-    difficulty: 'Napredni nivo'
-  },
-  {
-    id: 'jidoka',
-    title: 'Jidoka',
-    description: 'Automatizacija sa ljudskom inteligencijom - zaustavljanje linije pri problemu.',
-    icon: AlertCircle,
-    color: 'text-amber-600',
-    bgColor: 'bg-amber-50',
-    features: ['Andon sistemi', 'Autonomacija', 'Kvalitet na izvoru', 'Problem solving'],
-    difficulty: 'Napredni nivo'
+  en: {
+    title: 'Lean Modules for Your Development',
+    subtitle: 'Each module is designed to provide practical knowledge and skills through interactive simulations and real scenarios.',
+    learnMore: 'Learn More',
+    more: '+{count} more',
+    modules: [
+      {
+        id: '5s',
+        title: '5S Methodology',
+        description: 'Organize your workspace through five principles: Sort, Set in Order, Shine, Standardize, Sustain.',
+        icon: Layers,
+        color: 'text-blue-600',
+        bgColor: 'bg-blue-50',
+        features: ['Sorting', 'Systematic', 'Cleanliness', 'Standardization', 'Sustainment'],
+        difficulty: 'Beginner Level'
+      },
+      {
+        id: 'smed',
+        title: 'SMED',
+        description: 'Single-Minute Exchange of Die - rapid tool change and equipment setup.',
+        icon: Users,
+        color: 'text-purple-600',
+        bgColor: 'bg-purple-50',
+        features: ['Separation', 'Conversion', 'Standardization', 'Time Measurement'],
+        difficulty: 'Intermediate Level'
+      },
+      {
+        id: 'vsm',
+        title: 'VSM Mapping',
+        description: 'Analyze and optimize value streams to identify waste.',
+        icon: Target,
+        color: 'text-orange-600',
+        bgColor: 'bg-orange-50',
+        features: ['Current State', 'Future State', 'Waste Identification', 'Action Plan'],
+        difficulty: 'Advanced Level'
+      },
+      {
+        id: 'kaizen',
+        title: 'Kaizen',
+        description: 'Continuous improvement through small, incremental changes that lead to big results.',
+        icon: TrendingUp,
+        color: 'text-green-600',
+        bgColor: 'bg-green-50',
+        features: ['PDCA Cycle', 'Gemba Walks', 'Employee Suggestions', 'Kaizen Events'],
+        difficulty: 'Intermediate Level'
+      },
+      {
+        id: 'kanban',
+        title: 'Kanban',
+        description: 'Visual management system that controls the flow of materials and information.',
+        icon: Kanban,
+        color: 'text-cyan-600',
+        bgColor: 'bg-cyan-50',
+        features: ['Pull System', 'Kanban Cards', 'WIP Limits', 'Just-in-Time'],
+        difficulty: 'Intermediate Level'
+      },
+      {
+        id: 'poka-yoke',
+        title: 'Poka-Yoke',
+        description: 'Mechanisms for preventing errors through process and product design.',
+        icon: Shield,
+        color: 'text-rose-600',
+        bgColor: 'bg-rose-50',
+        features: ['Error Detection', 'Prevention', 'Design for Safety', 'Automation'],
+        difficulty: 'Advanced Level'
+      },
+      {
+        id: 'jidoka',
+        title: 'Jidoka',
+        description: 'Automation with human intelligence - stopping the line when a problem occurs.',
+        icon: AlertCircle,
+        color: 'text-amber-600',
+        bgColor: 'bg-amber-50',
+        features: ['Andon Systems', 'Autonomation', 'Quality at Source', 'Problem Solving'],
+        difficulty: 'Advanced Level'
+      }
+    ]
   }
-]
+}
 
 export function ModulesSection() {
+  const { language } = useLanguage()
+  const t = modulesTranslations[language]
+  const modules = t.modules
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -91,10 +182,10 @@ export function ModulesSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-            Lean Moduli za Vaš Razvoj
+            {t.title}
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Svaki modul je dizajniran da pruži praktična znanja i veštine kroz interaktivne simulacije i realne scenarije.
+            {t.subtitle}
           </p>
         </motion.div>
 
@@ -141,7 +232,7 @@ export function ModulesSection() {
                   </span>
                   {module.features.length > 3 && (
                     <span className="text-xs text-gray-500">
-                      +{module.features.length - 3} još
+                      {t.more.replace('{count}', String(module.features.length - 3))}
                     </span>
                   )}
                 </div>
@@ -149,7 +240,7 @@ export function ModulesSection() {
                 {/* CTA Button */}
                 <Link href="/moduli">
                   <Button variant="outline" className="w-full">
-                    Saznajte više
+                    {t.learnMore}
                     <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
