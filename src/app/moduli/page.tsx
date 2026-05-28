@@ -63,8 +63,8 @@ const dashboardTranslations = {
         description: 'Sprečavanje grešaka',
         icon: Shield,
         color: 'from-cyan-600 to-cyan-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/poka-yoke' as const
       },
       {
         id: 'heijunka',
@@ -137,8 +137,8 @@ const dashboardTranslations = {
         description: 'Error prevention',
         icon: Shield,
         color: 'from-cyan-600 to-cyan-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/poka-yoke' as const
       },
       {
         id: 'heijunka',
