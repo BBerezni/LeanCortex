@@ -57,6 +57,13 @@ const translations = {
     managementAlert: 'Stop! Tradicionalni proces sklapanja uzrokuje visoke troškove zbog nepažnje radnika. Kliknite ispod da pokrenete inženjerski redizajn radnog mesta.',
     proceedToDesign: 'Pređite na dizajniranje rešenja',
     potentialCostPrevented: 'Sprečen potencijalni trošak:',
+    eduPanelTitle: 'Uputstvo za modul: Poka-Yoke & COPQ (Cost of Poor Quality)',
+    eduPhase1Title: 'Faza 1: Tradicionalna proizvodnja',
+    eduPhase1Text: 'Sklapate komponente na osnovu vizuelne procene. Obratite pažnju na orijentaciju delova (rotaciju). Svaka pogrešno okrenuta komponenta stvara škart i direktno generiše trošak lošeg kvaliteta (**COPQ** — *Cost of Poor Quality*) od 50€ po delu.',
+    eduPhase2Title: 'Faza 2: Analiza i Poka-Yoke dizajn',
+    eduPhase2Text: 'Analizirate nastale greške i birate adekvatno tehničko rešenje (geometrijsko ograničenje/osiguranje) koje fizički onemogućava pogrešno spajanje.',
+    eduPhase3Title: 'Faza 3: Optimizovana proizvodnja',
+    eduPhase3Text: 'Primenom izabranog Poka-Yoke rešenja, sistem vam fizički ne dozvoljava da pogrešite. Uspešnim sklapanjem dokazujete eliminaciju škarta, a prethodno izgubljeni novac pretvarate u **Ušteđena sredstva**.',
   },
   en: {
     backToModules: 'Back to Modules',
@@ -95,6 +102,13 @@ const translations = {
     managementAlert: 'Stop! Traditional assembly process causes high costs due to worker carelessness. Click below to initiate engineering redesign of the workstation.',
     proceedToDesign: 'Proceed to Solution Design',
     potentialCostPrevented: 'Potential Cost Prevented:',
+    eduPanelTitle: 'Module Instructions: Poka-Yoke & COPQ (Cost of Poor Quality)',
+    eduPhase1Title: 'Phase 1: Traditional Production',
+    eduPhase1Text: 'You assemble components based on visual assessment. Pay close attention to the orientation of the parts (rotation). Each incorrectly oriented component creates scrap and directly generates a cost of poor quality (**COPQ** — *Cost of Poor Quality*) of 50€ per part.',
+    eduPhase2Title: 'Phase 2: Analysis & Poka-Yoke Design',
+    eduPhase2Text: 'You analyze the resulting errors and choose an appropriate technical solution (geometric constraint/safeguard) that physically prevents incorrect assembly.',
+    eduPhase3Title: 'Phase 3: Optimized Production',
+    eduPhase3Text: 'By applying the chosen Poka-Yoke solution, the system physically prevents you from making a mistake. Through successful assembly, you prove the elimination of scrap and convert previously lost money into **Saved Funds**.',
   }
 };
 
@@ -1057,19 +1071,19 @@ export function PokaYokeGame({ language: propLanguage }: PokaYokeGameProps = {})
 
         {/* Educational Panel */}
         <div className="mt-8 mb-6 rounded-lg bg-white/10 p-6 backdrop-blur-sm border border-white/20">
-          <h3 className="text-xl font-bold text-white mb-4">Uputstvo za modul: Poka-Yoke & COPQ (Cost of Poor Quality)</h3>
+          <h3 className="text-xl font-bold text-white mb-4">{t.eduPanelTitle}</h3>
           <div className="space-y-4 text-gray-200">
             <div>
-              <h4 className="font-semibold text-green-400 mb-1">Faza 1: Tradicionalna proizvodnja</h4>
-              <p className="text-sm">Sklapate komponente na osnovu vizuelne procene. Obratite pažnju na orijentaciju delova (rotaciju). Svaka pogrešno okrenuta komponenta stvara škart i direktno generiše trošak lošeg kvaliteta (<strong>COPQ</strong> — <em>Cost of Poor Quality</em>) od 50€ po delu.</p>
+              <h4 className="font-semibold text-green-400 mb-1">{t.eduPhase1Title}</h4>
+              <p className="text-sm" dangerouslySetInnerHTML={{ __html: t.eduPhase1Text }} />
             </div>
             <div>
-              <h4 className="font-semibold text-blue-400 mb-1">Faza 2: Analiza i Poka-Yoke dizajn</h4>
-              <p className="text-sm">Analizirate nastale greške i birate adekvatno tehničko rešenje (geometrijsko ograničenje/osiguranje) koje fizički onemogućava pogrešno spajanje.</p>
+              <h4 className="font-semibold text-blue-400 mb-1">{t.eduPhase2Title}</h4>
+              <p className="text-sm">{t.eduPhase2Text}</p>
             </div>
             <div>
-              <h4 className="font-semibold text-purple-400 mb-1">Faza 3: Optimizovana proizvodnja</h4>
-              <p className="text-sm">Primenom izabranog Poka-Yoke rešenja, sistem vam fizički ne dozvoljava da pogrešite. Uspešnim sklapanjem dokazujete eliminaciju škarta, a prethodno izgubljeni novac pretvarate u <strong>Ušteđena sredstva</strong>.</p>
+              <h4 className="font-semibold text-purple-400 mb-1">{t.eduPhase3Title}</h4>
+              <p className="text-sm" dangerouslySetInnerHTML={{ __html: t.eduPhase3Text }} />
             </div>
           </div>
         </div>

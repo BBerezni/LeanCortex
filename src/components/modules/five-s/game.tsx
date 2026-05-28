@@ -45,7 +45,7 @@ const translations = {
 };
 
 export function FiveSGame() {
-  const { language, toggleLanguage } = useLanguage();
+  const { language } = useLanguage();
   const t = translations[language];
   const [currentPhase, setCurrentPhase] = useState(1); // 1: Sort, 2: Seiton, 3: Seiso, 4: Seiketsu, 5: Shitsuke
   const [phase3Tools, setPhase3Tools] = useState<SeisoTool[]>([]);
@@ -112,14 +112,6 @@ export function FiveSGame() {
                 {t.subtitle}
               </p>
             </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={toggleLanguage}
-              className="border-white/30 bg-white/10 text-white hover:bg-white/20"
-            >
-              {language === 'sr' ? 'EN' : 'SR'}
-            </Button>
           </div>
         </motion.div>
 
@@ -212,11 +204,11 @@ export function FiveSGame() {
               )}
             </motion.div>
           ) : currentPhase === 4 ? (
-            <SeiketsuStage tools={phase3Tools} onTransitionToPhase5={handleTransitionToPhase5} />
+            <SeiketsuStage tools={phase3Tools} onTransitionToPhase5={handleTransitionToPhase5} language={language} />
           ) : currentPhase === 3 ? (
-            <SeisoStage tools={phase3Tools} onTransitionToPhase4={handleTransitionToPhase4} />
+            <SeisoStage tools={phase3Tools} onTransitionToPhase4={handleTransitionToPhase4} language={language} />
           ) : (
-            <SortStage onTransitionToPhase3={handleTransitionToPhase3} />
+            <SortStage onTransitionToPhase3={handleTransitionToPhase3} language={language} />
           )}
         </div>
       </div>

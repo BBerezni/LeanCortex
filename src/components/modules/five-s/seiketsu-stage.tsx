@@ -5,6 +5,62 @@ import { motion } from 'framer-motion';
 import { CheckCircle, AlertCircle, ClipboardCheck, Shield, Clock, Tag } from 'lucide-react';
 import { SeisoTool } from './seiso-stage';
 
+// Translations dictionary
+const translations = {
+  sr: {
+    phaseTitle: 'Faza 4: Seiketsu (Standardizovati)',
+    phaseDescription: 'Kreirajte vizuelne standarde i pravila za održavanje radnog mesta.',
+    counter: 'Aktivno:',
+    shadowboardTitle: 'Finalni Shadowboard (Reference)',
+    shadowboardDesc: 'Ovo je vaš savršeno organizovan i očišćen radni prostor.',
+    formTitle: 'Formular Standardizacije',
+    formDesc: 'Aktivirajte pravila da biste kreirali zvanični standard.',
+    rule1: 'Svaki alat mora biti vraćen na svoju siluetu odmah nakon korišćenja.',
+    rule2: 'Čišćenje i inspekcija se vrše svakog dana na kraju smene (5 minuta).',
+    rule3: 'Crvene etikete se proveravaju svakog petka.',
+    rule4: 'Svi standardi se vizuelno prikazuju na radnom mestu.',
+    activeLabel: 'AKTIVNO',
+    inactiveLabel: 'NEAKTIVNO',
+    standardTitle: 'Zvanični Standard',
+    standardComplete: 'Sva pravila su aktivirana. Standard je uspostavljen!',
+    standardIncomplete: ' pravila još uvek treba aktivirati.',
+    instructionsTitle: 'Uputstva:',
+    instruction1: 'Seiketsu osigurava da se prve tri faze (Sortiraj, Organizuj, Očisti) sprovode svakodnevno.',
+    instruction2: 'Standardizacija podrazumeva kreiranje jasnih vizuelnih uputstava i check-lista.',
+    instruction3: 'Aktivirajte sva pravila kako biste generisali zvanični 5S sertifikat radnog mesta.',
+    instruction4: 'Kliknite na pravilo da biste ga promenili iz NEAKTIVNO u AKTIVNO stanje.',
+    successTitle: 'Faza 4 Uspešno Završena!',
+    successDesc: 'Spremni ste za održavanje standarda (Shitsuke).',
+    successButton: 'Bravo! Pređi na poslednji korak: Shitsuke (Održavati)'
+  },
+  en: {
+    phaseTitle: 'Phase 4: Seiketsu (Standardize)',
+    phaseDescription: 'Create visual standards and rules for maintaining the workplace.',
+    counter: 'Active:',
+    shadowboardTitle: 'Final Shadowboard (Reference)',
+    shadowboardDesc: 'This is your perfectly organized and cleaned workspace.',
+    formTitle: 'Standardization Form',
+    formDesc: 'Activate rules to create the official standard.',
+    rule1: 'Every tool must be returned to its silhouette immediately after use.',
+    rule2: 'Cleaning and inspection are performed daily at the end of shift (5 minutes).',
+    rule3: 'Red tags are checked every Friday.',
+    rule4: 'All standards are visually displayed at the workplace.',
+    activeLabel: 'ACTIVE',
+    inactiveLabel: 'INACTIVE',
+    standardTitle: 'Official Standard',
+    standardComplete: 'All rules have been activated. Standard is established!',
+    standardIncomplete: ' rules still need to be activated.',
+    instructionsTitle: 'Instructions:',
+    instruction1: 'Seiketsu ensures that the first three phases (Sort, Set in Order, Shine) are performed daily.',
+    instruction2: 'Standardization involves creating clear visual instructions and checklists.',
+    instruction3: 'Activate all rules to generate the official 5S workplace certificate.',
+    instruction4: 'Click on a rule to change it from INACTIVE to ACTIVE state.',
+    successTitle: 'Phase 4 Successfully Completed!',
+    successDesc: 'You are ready for sustaining the standard (Shitsuke).',
+    successButton: 'Great! Move to the final step: Shitsuke (Sustain)'
+  }
+};
+
 interface StandardizationRule {
   id: string;
   text: string;
@@ -12,40 +68,45 @@ interface StandardizationRule {
   isActive: boolean;
 }
 
-const standardizationRules: StandardizationRule[] = [
-  { 
-    id: '1', 
-    text: 'Svaki alat mora biti vraćen na svoju siluetu odmah nakon korišćenja.', 
-    icon: ClipboardCheck, 
-    isActive: false 
-  },
-  { 
-    id: '2', 
-    text: 'Čišćenje i inspekcija se vrše svakog dana na kraju smene (5 minuta).', 
-    icon: Clock, 
-    isActive: false 
-  },
-  { 
-    id: '3', 
-    text: 'Crvene etikete se proveravaju svakog petka.', 
-    icon: Tag, 
-    isActive: false 
-  },
-  { 
-    id: '4', 
-    text: 'Svi standardi se vizuelno prikazuju na radnom mestu.', 
-    icon: Shield, 
-    isActive: false 
-  },
-];
+const getStandardizationRules = (language: 'sr' | 'en'): StandardizationRule[] => {
+  const t = translations[language];
+  return [
+    { 
+      id: '1', 
+      text: t.rule1, 
+      icon: ClipboardCheck, 
+      isActive: false 
+    },
+    { 
+      id: '2', 
+      text: t.rule2, 
+      icon: Clock, 
+      isActive: false 
+    },
+    { 
+      id: '3', 
+      text: t.rule3, 
+      icon: Tag, 
+      isActive: false 
+    },
+    { 
+      id: '4', 
+      text: t.rule4, 
+      icon: Shield, 
+      isActive: false 
+    },
+  ];
+};
 
 interface SeiketsuStageProps {
   tools: SeisoTool[];
   onTransitionToPhase5?: () => void;
+  language: 'sr' | 'en';
 }
 
-export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProps) {
-  const [rules, setRules] = useState<StandardizationRule[]>(standardizationRules);
+export function SeiketsuStage({ tools, onTransitionToPhase5, language }: SeiketsuStageProps) {
+  const t = translations[language];
+  const [rules, setRules] = useState<StandardizationRule[]>(getStandardizationRules(language));
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handleRuleToggle = useCallback((ruleId: string) => {
@@ -80,10 +141,10 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
         className="mb-6 text-center sm:mb-8"
       >
         <h2 className="text-2xl font-bold text-white sm:text-3xl">
-          Faza 4: Seiketsu (Standardizovati)
+          {t.phaseTitle}
         </h2>
         <p className="mt-2 text-base text-gray-300 sm:text-lg">
-          Kreirajte vizuelne standarde i pravila za održavanje radnog mesta.
+          {t.phaseDescription}
         </p>
         
         {/* Progress Counter */}
@@ -95,7 +156,7 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
         >
           <CheckCircle className="h-5 w-5 text-green-400" />
           <span className="text-sm font-semibold text-white sm:text-base">
-            Aktivno: {activeCount} / {rules.length}
+            {t.counter} {activeCount} / {rules.length}
           </span>
         </motion.div>
       </motion.div>
@@ -110,10 +171,10 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
           className="order-2 relative z-10 rounded-xl border-2 border-green-400/50 bg-green-900/20 p-4 backdrop-blur-sm lg:order-1 sm:p-6"
         >
           <h3 className="mb-3 text-xl font-semibold text-green-300 sm:mb-4 sm:text-2xl">
-            Finalni Shadowboard (Reference)
+            {t.shadowboardTitle}
           </h3>
           <p className="mb-4 text-xs text-gray-300 sm:mb-6 sm:text-sm">
-            Ovo je vaš savršeno organizovan i očišćen radni prostor.
+            {t.shadowboardDesc}
           </p>
           
           {/* Shadowboard Grid */}
@@ -150,10 +211,10 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
           className="order-1 relative z-10 rounded-xl border-2 border-blue-400/50 bg-blue-900/20 p-4 backdrop-blur-sm lg:order-2 sm:p-6"
         >
           <h3 className="mb-3 text-xl font-semibold text-blue-300 sm:mb-4 sm:text-2xl">
-            Formular Standardizacije
+            {t.formTitle}
           </h3>
           <p className="mb-4 text-xs text-gray-300 sm:mb-6 sm:text-sm">
-            Aktivirajte pravila da biste kreirali zvanični standard.
+            {t.formDesc}
           </p>
           
           {/* Rules List */}
@@ -192,7 +253,7 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
                         ? 'bg-green-500/20 text-green-300'
                         : 'bg-gray-500/20 text-gray-300'
                     }`}>
-                      {rule.isActive ? 'AKTIVNO' : 'NEAKTIVNO'}
+                      {rule.isActive ? t.activeLabel : t.inactiveLabel}
                     </div>
                   </div>
                   {rule.isActive && (
@@ -222,12 +283,12 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
                 <h4 className={`font-semibold ${
                   isComplete ? 'text-green-300' : 'text-gray-300'
                 }`}>
-                  Zvanični Standard
+                  {t.standardTitle}
                 </h4>
                 <p className="text-xs text-gray-400">
                   {isComplete 
-                    ? 'Sva pravila su aktivirana. Standard je uspostavljen!'
-                    : `${rules.length - activeCount} pravila još uvek treba aktivirati.`
+                    ? t.standardComplete
+                    : `${rules.length - activeCount}${t.standardIncomplete}`
                   }
                 </p>
               </div>
@@ -244,13 +305,13 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
         className="mt-6 rounded-lg bg-white/10 p-3 backdrop-blur-sm sm:mt-8 sm:p-4"
       >
         <h4 className="mb-2 text-base font-semibold text-white sm:text-lg">
-          Uputstva:
+          {t.instructionsTitle}
         </h4>
         <ul className="list-inside list-disc space-y-1 text-xs text-gray-300 sm:text-sm">
-          <li>Seiketsu osigurava da se prve tri faze (Sortiraj, Organizuj, Očisti) sprovode svakodnevno.</li>
-          <li>Standardizacija podrazumeva kreiranje jasnih vizuelnih uputstava i check-lista.</li>
-          <li>Aktivirajte sva pravila kako biste generisali zvanični 5S sertifikat radnog mesta.</li>
-          <li>Kliknite na pravilo da biste ga promenili iz NEAKTIVNO u AKTIVNO stanje.</li>
+          <li>{t.instruction1}</li>
+          <li>{t.instruction2}</li>
+          <li>{t.instruction3}</li>
+          <li>{t.instruction4}</li>
         </ul>
       </motion.div>
 
@@ -278,10 +339,10 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
               </motion.div>
             </div>
             <h3 className="mb-3 text-center text-2xl font-bold text-white">
-              Faza 4 Uspešno Završena!
+              {t.successTitle}
             </h3>
             <p className="mb-6 text-center text-gray-300">
-              Spremni ste za održavanje standarda (Shitsuke).
+              {t.successDesc}
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -292,7 +353,7 @@ export function SeiketsuStage({ tools, onTransitionToPhase5 }: SeiketsuStageProp
               }}
               className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
             >
-              Bravo! Pređi na poslednji korak: Shitsuke (Održavati)
+              {t.successButton}
             </motion.button>
           </motion.div>
         </motion.div>

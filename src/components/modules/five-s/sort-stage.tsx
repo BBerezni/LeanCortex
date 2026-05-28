@@ -3,10 +3,10 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, useMotionValue, useTransform, PanInfo, AnimatePresence } from 'framer-motion';
 import { SeisoTool } from './seiso-stage';
-import { 
-  Wrench, 
-  Trash2, 
-  FileText, 
+import {
+  Wrench,
+  Trash2,
+  FileText,
   Package,
   Hammer,
   Cog,
@@ -20,9 +20,96 @@ import {
   Hand
 } from 'lucide-react';
 
+// Translations dictionary
+const translations = {
+  sr: {
+    // Phase 1 (Seiri)
+    phase1Title: 'Faza 1: Sortiranje (Seiri)',
+    phase1Description: 'Odvojite potrebne predmete od nepotrebnih',
+    phase1Counter: 'Sređeno:',
+    // Phase 2 (Seiton)
+    phase2Title: 'Faza 2: Seiton (Organizovati)',
+    phase2Description: 'Postavite alat na njegovo predviđeno mesto na Shadowboard',
+    phase2Counter: 'Organizovano:',
+    // Alerts & Popups
+    sortedPopup: '+1 Sređeno!',
+    requiredError: 'Ovaj predmet je potreban za rad!',
+    silhouetteError: 'Postavite alat na odgovarajuću siluetu!',
+    // Panels & Dropzones
+    workspaceTitle: 'Radni prostor',
+    workspaceDescPhase1: 'Ovde su svi predmeti trenutno na radnom stolu',
+    workspaceDescPhase2: 'Ovde su alati koje treba organizovati',
+    redTagAreaTitle: 'Zona crvenih etiketa',
+    redTagAreaDesc: 'Ovde stavite nepotrebne ili polomljene predmete',
+    dropHint: 'Prevucite predmete ovde',
+    dropHintSub: 'Predmeti koji su polomljeni, nepotrebnih ili retko korišćeni',
+    shadowboardTitle: 'Shadowboard',
+    shadowboardDesc: 'Postavite alat na njegovo predviđeno mesto',
+    // Instructions Phase 1
+    instructionsTitle: 'Uputstva:',
+    phase1Instruction1: 'Identifikujte predmete koji su neophodni za svakodnevni rad',
+    phase1Instruction2: 'Označite i premestite nepotrebne predmete u Zonu crvenih etiketa',
+    phase1Instruction3: 'Zadržite samo esencijalne predmete u Radnom prostoru',
+    phase1Instruction4: 'Dokumentujte odluke za svaki predmet',
+    // Instructions Phase 2
+    phase2Instruction1: 'Postavite svaki predmet na njegovu označenu siluetu na Shadowboard-u',
+    phase2Instruction2: 'Pratite oznake ispod silueta kako biste osigurali tačnost.',
+    phase2Instruction3: 'Cilj je da svaki alat ima svoje odgovarajuće mesto.',
+    phase2Instruction4: 'Organizovan radni prostor smanjuje vreme traženja alata',
+    // Success Modal
+    successTitle: 'Svaka čast!',
+    phase1SuccessDesc: 'Prvi korak (Sortiranje) je uspešno završen. Da li ste spremni za Seiton (Organizovati)?',
+    phase2SuccessDesc: 'Odlično! Sve je na svom mestu. Da li ste spremni za Fazu 3: Seiso (Očistiti)?',
+    phase1SuccessButton: 'Bravo! Pređi na sledeći korak: Seiton (Organizovati)',
+    phase2SuccessButton: 'Bravo! Pređi na sledeći korak: Seiso (Očistiti)'
+  },
+  en: {
+    // Phase 1 (Seiri)
+    phase1Title: 'Phase 1: Sort (Seiri)',
+    phase1Description: 'Separate necessary items from unnecessary ones',
+    phase1Counter: 'Sorted:',
+    // Phase 2 (Seiton)
+    phase2Title: 'Phase 2: Seiton (Set in Order)',
+    phase2Description: 'Place tools in their designated spots on the Shadowboard',
+    phase2Counter: 'Organized:',
+    // Alerts & Popups
+    sortedPopup: '+1 Sorted!',
+    requiredError: 'This item is required for work!',
+    silhouetteError: 'Place the tool on the correct silhouette!',
+    // Panels & Dropzones
+    workspaceTitle: 'Workspace',
+    workspaceDescPhase1: 'All items are currently on the workbench',
+    workspaceDescPhase2: 'Here are the tools that need to be organized',
+    redTagAreaTitle: 'Red Tag Area',
+    redTagAreaDesc: 'Place unnecessary or broken items here',
+    dropHint: 'Drag items here',
+    dropHintSub: 'Items that are broken, unnecessary, or rarely used',
+    shadowboardTitle: 'Shadowboard',
+    shadowboardDesc: 'Place the tool in its designated spot',
+    // Instructions Phase 1
+    instructionsTitle: 'Instructions:',
+    phase1Instruction1: 'Identify items that are necessary for daily work',
+    phase1Instruction2: 'Mark and move unnecessary items to the Red Tag Area',
+    phase1Instruction3: 'Keep only essential items in the Workspace',
+    phase1Instruction4: 'Document decisions for each item',
+    // Instructions Phase 2
+    phase2Instruction1: 'Place each item on its marked silhouette on the Shadowboard',
+    phase2Instruction2: 'Follow the labels below silhouettes to ensure accuracy.',
+    phase2Instruction3: 'The goal is for every tool to have its designated place.',
+    phase2Instruction4: 'An organized workspace reduces tool search time',
+    // Success Modal
+    successTitle: 'Well done!',
+    phase1SuccessDesc: 'The first step (Sort) has been successfully completed. Are you ready for Seiton (Set in Order)?',
+    phase2SuccessDesc: 'Excellent! Everything is in its place. Are you ready for Phase 3: Seiso (Shine)?',
+    phase1SuccessButton: 'Great! Move to the next step: Seiton (Set in Order)',
+    phase2SuccessButton: 'Great! Move to the next step: Seiso (Shine)'
+  }
+};
+
 interface Item {
   id: string;
-  name: string;
+  nameSr: string;
+  nameEn: string;
   icon: React.ElementType;
   type: 'trash' | 'broken' | 'valid';
   color: string;
@@ -40,26 +127,26 @@ interface SeitonTool {
 }
 
 const baseItems: Item[] = [
-  { id: '1', name: 'Polomljen alat', icon: X, type: 'broken', color: 'red' },
-  { id: '2', name: 'Smeće', icon: Trash2, type: 'trash', color: 'gray' },
-  { id: '3', name: 'Važeći dokument', icon: FileText, type: 'valid', color: 'green', shadowId: 'document' },
-  { id: '4', name: 'Čist alat', icon: Wrench, type: 'valid', color: 'blue', shadowId: 'wrench' },
-  { id: '5', name: 'Zastareo dokument', icon: FileX, type: 'trash', color: 'gray' },
-  { id: '6', name: 'Rezervni deo', icon: Package, type: 'valid', color: 'purple', shadowId: 'package' },
-  { id: '7', name: 'Oštećen čekić', icon: Hammer, type: 'broken', color: 'red' },
-  { id: '8', name: 'Stara kutija', icon: Archive, type: 'trash', color: 'gray' },
-  { id: '9', name: 'Radno uputstvo', icon: FileText, type: 'valid', color: 'green', shadowId: 'manual' },
-  { id: '10', name: 'Polomljen zupčanik', icon: Cog, type: 'broken', color: 'red' },
-  { id: '11', name: 'Upozorenje', icon: AlertTriangle, type: 'broken', color: 'red' },
-  { id: '12', name: 'Stari sat', icon: Clock, type: 'trash', color: 'gray' },
-  { id: '13', name: 'Ključ', icon: Wrench, type: 'valid', color: 'blue', shadowId: 'key' },
-  { id: '14', name: 'Pokvareni alat', icon: X, type: 'broken', color: 'red' },
-  { id: '15', name: 'Zgužvan papir', icon: FileText, type: 'trash', color: 'gray' },
-  { id: '16', name: 'Novi zupčanik', icon: Cog, type: 'valid', color: 'green', shadowId: 'cog' },
-  { id: '17', name: 'Otpad', icon: Trash2, type: 'trash', color: 'gray' },
-  { id: '18', name: 'Sistemski dokument', icon: FileText, type: 'valid', color: 'blue', shadowId: 'system' },
-  { id: '19', name: 'Prazna flaša', icon: Trash2, type: 'trash', color: 'gray' },
-  { id: '20', name: 'Istekao sertifikat', icon: FileX, type: 'trash', color: 'gray' },
+  { id: '1', nameSr: 'Polomljen alat', nameEn: 'Broken Tool', icon: X, type: 'broken', color: 'red' },
+  { id: '2', nameSr: 'Smeće', nameEn: 'Trash', icon: Trash2, type: 'trash', color: 'gray' },
+  { id: '3', nameSr: 'Važeći dokument', nameEn: 'Valid Document', icon: FileText, type: 'valid', color: 'green', shadowId: 'document' },
+  { id: '4', nameSr: 'Čist alat', nameEn: 'Clean Tool', icon: Wrench, type: 'valid', color: 'blue', shadowId: 'wrench' },
+  { id: '5', nameSr: 'Zastareo dokument', nameEn: 'Expired Document', icon: FileX, type: 'trash', color: 'gray' },
+  { id: '6', nameSr: 'Rezervni deo', nameEn: 'Spare Part', icon: Package, type: 'valid', color: 'purple', shadowId: 'package' },
+  { id: '7', nameSr: 'Oštećen čekić', nameEn: 'Damaged Hammer', icon: Hammer, type: 'broken', color: 'red' },
+  { id: '8', nameSr: 'Stara kutija', nameEn: 'Old Box', icon: Archive, type: 'trash', color: 'gray' },
+  { id: '9', nameSr: 'Radno uputstvo', nameEn: 'Work Instruction', icon: FileText, type: 'valid', color: 'green', shadowId: 'manual' },
+  { id: '10', nameSr: 'Polomljen zupčanik', nameEn: 'Broken Gear', icon: Cog, type: 'broken', color: 'red' },
+  { id: '11', nameSr: 'Upozorenje', nameEn: 'Warning', icon: AlertTriangle, type: 'broken', color: 'red' },
+  { id: '12', nameSr: 'Stari sat', nameEn: 'Old Clock', icon: Clock, type: 'trash', color: 'gray' },
+  { id: '13', nameSr: 'Ključ', nameEn: 'Key', icon: Wrench, type: 'valid', color: 'blue', shadowId: 'key' },
+  { id: '14', nameSr: 'Pokvareni alat', nameEn: 'Broken Tool', icon: X, type: 'broken', color: 'red' },
+  { id: '15', nameSr: 'Zgužvan papir', nameEn: 'Crumpled Paper', icon: FileText, type: 'trash', color: 'gray' },
+  { id: '16', nameSr: 'Novi zupčanik', nameEn: 'New Gear', icon: Cog, type: 'valid', color: 'green', shadowId: 'cog' },
+  { id: '17', nameSr: 'Otpad', nameEn: 'Waste', icon: Trash2, type: 'trash', color: 'gray' },
+  { id: '18', nameSr: 'Sistemski dokument', nameEn: 'System Document', icon: FileText, type: 'valid', color: 'blue', shadowId: 'system' },
+  { id: '19', nameSr: 'Prazna flaša', nameEn: 'Empty Bottle', icon: Trash2, type: 'trash', color: 'gray' },
+  { id: '20', nameSr: 'Istekao sertifikat', nameEn: 'Expired Certificate', icon: FileX, type: 'trash', color: 'gray' },
 ];
 
 
@@ -83,11 +170,11 @@ const generateUUID = (): string => {
 };
 
 // Initialize Seiton phase with fresh state
-const initializeSeiton = (sourceItems: Item[]): SeitonTool[] => {
+const initializeSeiton = (sourceItems: Item[], language: 'sr' | 'en'): SeitonTool[] => {
   const necessaryTools = sourceItems.filter(item => item.type === 'valid' && item.shadowId);
   const seitonTools = necessaryTools.slice(0, 7).map(item => ({
     id: generateUUID(),
-    name: item.name,
+    name: language === 'sr' ? item.nameSr : item.nameEn,
     icon: item.icon,
     color: item.color,
     shadowId: item.shadowId!,
@@ -105,9 +192,11 @@ const totalUnnecessary = baseItems.filter(item => item.type === 'trash' || item.
 
 interface SortStageProps {
   onTransitionToPhase3?: (tools: SeisoTool[]) => void;
+  language: 'sr' | 'en';
 }
 
-export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
+export function SortStage({ onTransitionToPhase3, language }: SortStageProps) {
+  const t = translations[language];
   const [phase, setPhase] = useState(1); // Phase 1: Sort, Phase 2: Seiton
   const [sortedItems, setSortedItems] = useState<Set<string>>(new Set());
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -151,7 +240,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
       const savedItemsFromPhase1 = baseItems.filter(item => item.type === 'valid' && item.shadowId);
       const freshTools: SeitonTool[] = savedItemsFromPhase1.slice(0, 7).map(item => ({
         id: `seiton-${item.id}-${Math.random()}`, // New unique IDs
-        name: item.name,
+        name: language === 'sr' ? item.nameSr : item.nameEn,
         icon: item.icon,
         color: item.color,
         shadowId: item.shadowId!, // Type assertion - we know it exists due to filter
@@ -245,7 +334,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
         } else {
           // Incorrect sort - item is necessary
           console.log('Item is necessary, bouncing back');
-          setErrorMessage('Ovaj predmet je potreban za rad!');
+          setErrorMessage(t.requiredError);
           // Play error sound
           if (errorSound) {
             console.log('Playing sound: error');
@@ -310,7 +399,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
       } else {
         // Wrong placement or no shadow
         console.log('Tool not placed correctly');
-        setErrorMessage('Postavite alat na odgovarajuću siluetu!');
+        setErrorMessage(t.silhouetteError);
         if (errorSound) {
           console.log('Playing sound: error');
           errorSound.currentTime = 0;
@@ -392,10 +481,10 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
         className="mb-6 text-center sm:mb-8"
       >
         <h2 className="text-2xl font-bold text-white sm:text-3xl">
-          {phase === 1 ? 'Faza 1: Sortiranje (Seiri)' : 'Faza 2: Seiton (Organizovati)'}
+          {phase === 1 ? t.phase1Title : t.phase2Title}
         </h2>
         <p className="mt-2 text-base text-gray-300 sm:text-lg">
-          {phase === 1 ? 'Odvojite potrebne predmete od nepotrebnih' : 'Postavite alat na njegovo predviđeno mesto na Shadowboard'}
+          {phase === 1 ? t.phase1Description : t.phase2Description}
         </p>
         
         {/* Progress Counter */}
@@ -407,7 +496,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
         >
           <CheckCircle className="h-5 w-5 text-green-400" />
           <span className="text-sm font-semibold text-white sm:text-base">
-            {phase === 1 ? `Sređeno: ${sortedCount} / ${totalUnnecessary}` : `Organizovano: ${organizedCount} / ${seitonProgress.length}`}
+            {phase === 1 ? `${t.phase1Counter} ${sortedCount} / ${totalUnnecessary}` : `${t.phase2Counter} ${organizedCount} / ${seitonProgress.length}`}
           </span>
         </motion.div>
       </motion.div>
@@ -441,7 +530,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
           >
             <div className="flex items-center gap-2 rounded-full bg-green-500/90 px-4 py-2 backdrop-blur-sm shadow-lg">
               <CheckCircle className="h-5 w-5 text-white" />
-              <span className="text-sm font-semibold text-white">+1 Sređeno!</span>
+              <span className="text-sm font-semibold text-white">{t.sortedPopup}</span>
             </div>
           </motion.div>
         )}
@@ -457,10 +546,10 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
           className="order-1 relative z-20 rounded-xl border-2 border-white/20 bg-white/5 p-4 backdrop-blur-sm lg:order-1 sm:p-6"
         >
           <h3 className="mb-3 text-xl font-semibold text-white sm:mb-4 sm:text-2xl">
-            Radni prostor
+            {t.workspaceTitle}
           </h3>
           <p className="mb-4 text-xs text-gray-300 sm:mb-6 sm:text-sm">
-            {phase === 1 ? 'Ovde su svi predmeti trenutno na radnom stolu' : 'Ovde su alati koje treba organizovati'}
+            {phase === 1 ? t.workspaceDescPhase1 : t.workspaceDescPhase2}
           </p>
           
           {/* Items in Workspace - Messy grid layout */}
@@ -485,6 +574,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
                 showError={errorMessage !== null}
                 isTransitioning={isTransitioning}
                 phase={phase}
+                language={language}
               />
             ))}
             
@@ -534,10 +624,10 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
             className="order-2 relative z-10 rounded-xl border-2 border-red-400/50 bg-red-900/30 p-4 backdrop-blur-sm lg:order-2 sm:p-6"
           >
             <h3 className="mb-3 text-xl font-semibold text-red-300 sm:mb-4 sm:text-2xl">
-              Zona crvenih etiketa
+              {t.redTagAreaTitle}
             </h3>
             <p className="mb-4 text-xs text-gray-300 sm:mb-6 sm:text-sm">
-              Ovde stavite nepotrebne ili polomljene predmete
+              {t.redTagAreaDesc}
             </p>
             
             {/* Drop Zone */}
@@ -554,10 +644,10 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
             >
               <div className="text-center">
                 <p className="text-base text-red-400 sm:text-lg">
-                  Prevucite predmete ovde
+                  {t.dropHint}
                 </p>
                 <p className="mt-2 text-xs text-gray-400 sm:mt-2 sm:text-sm">
-                  Predmeti koji su polomljeni, nepotrebnih ili retko korišćeni
+                  {t.dropHintSub}
                 </p>
               </div>
             </motion.div>
@@ -573,10 +663,10 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
             className="order-2 relative z-10 rounded-xl border-2 border-gray-400/50 bg-gray-800/50 p-4 backdrop-blur-sm lg:order-2 sm:p-6"
           >
             <h3 className="mb-3 text-xl font-semibold text-gray-200 sm:mb-4 sm:text-2xl">
-              Shadowboard
+              {t.shadowboardTitle}
             </h3>
             <p className="mb-4 text-xs text-gray-300 sm:mb-6 sm:text-sm">
-              Postavite alat na njegovo predviđeno mesto
+              {t.shadowboardDesc}
             </p>
             
             {/* Shadowboard Grid */}
@@ -619,22 +709,22 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
         className="mt-6 rounded-lg bg-white/10 p-3 backdrop-blur-sm sm:mt-8 sm:p-4"
       >
         <h4 className="mb-2 text-base font-semibold text-white sm:text-lg">
-          Uputstva:
+          {t.instructionsTitle}
         </h4>
         <ul className="list-inside list-disc space-y-1 text-xs text-gray-300 sm:text-sm">
           {phase === 1 ? (
             <>
-              <li>Identifikujte predmete koji su neophodni za svakodnevni rad</li>
-              <li>Označite i premestite nepotrebne predmete u Zonu crvenih etiketa</li>
-              <li>Zadržite samo esencijalne predmete u Radnom prostoru</li>
-              <li>Dokumentujte odluke za svaki predmet</li>
+              <li>{t.phase1Instruction1}</li>
+              <li>{t.phase1Instruction2}</li>
+              <li>{t.phase1Instruction3}</li>
+              <li>{t.phase1Instruction4}</li>
             </>
           ) : (
             <>
-              <li>Postavite svaki predmet na njegovu označenu siluetu na Shadowboard-u</li>
-              <li>Pratite oznake ispod silueta kako biste osigurali tačnost.</li>
-              <li>Cilj je da svaki alat ima svoje odgovarajuće mesto.</li>
-              <li>Organizovan radni prostor smanjuje vreme traženja alata</li>
+              <li>{t.phase2Instruction1}</li>
+              <li>{t.phase2Instruction2}</li>
+              <li>{t.phase2Instruction3}</li>
+              <li>{t.phase2Instruction4}</li>
             </>
           )}
         </ul>
@@ -664,12 +754,12 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
               </motion.div>
             </div>
             <h3 className="mb-3 text-center text-2xl font-bold text-white">
-              Svaka čast!
+              {t.successTitle}
             </h3>
             <p className="mb-6 text-center text-gray-300">
               {phase === 1 
-                ? 'Prvi korak (Sortiranje) je uspešno završen. Da li ste spremni za Seiton (Organizovati)?'
-                : 'Odlično! Sve je na svom mestu. Da li ste spremni za Fazu 3: Seiso (Očistiti)?'
+                ? t.phase1SuccessDesc
+                : t.phase2SuccessDesc
               }
             </p>
             {phase === 1 ? (
@@ -682,7 +772,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
                 }}
                 className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
               >
-                Bravo! Pređi na sledeći korak: Seiton (Organizovati)
+                {t.phase1SuccessButton}
               </motion.button>
             ) : (
               <motion.button
@@ -705,7 +795,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
                 }}
                 className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
               >
-                Bravo! Pređi na sledeći korak: Seiso (Očistiti)
+                {t.phase2SuccessButton}
               </motion.button>
             )}
           </motion.div>
@@ -715,7 +805,7 @@ export function SortStage({ onTransitionToPhase3 }: SortStageProps) {
   );
 }
 
-function DraggableItem({ item, index, onDragEnd, onDrag, onDragStart, showError, isTransitioning, phase }: { 
+function DraggableItem({ item, index, onDragEnd, onDrag, onDragStart, showError, isTransitioning, phase, language }: { 
   item: Item | SeitonTool; 
   index: number; 
   onDragEnd: (item: Item | SeitonTool, info: PanInfo) => boolean | void;
@@ -724,6 +814,7 @@ function DraggableItem({ item, index, onDragEnd, onDrag, onDragStart, showError,
   showError: boolean;
   isTransitioning?: boolean;
   phase?: number;
+  language: 'sr' | 'en';
 }) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -799,7 +890,7 @@ function DraggableItem({ item, index, onDragEnd, onDrag, onDragStart, showError,
                         item.color === 'purple' ? '#d8b4fe' :
                         item.color === 'yellow' ? '#fde68a' : '#d1d5db' }}
       >
-        {item.name}
+        {language === 'sr' ? (item as any).nameSr || (item as any).name : (item as any).nameEn || (item as any).name}
       </p>
     </motion.div>
   );

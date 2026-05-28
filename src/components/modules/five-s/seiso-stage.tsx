@@ -4,6 +4,36 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, AlertCircle } from 'lucide-react';
 
+// Translations dictionary
+const translations = {
+  sr: {
+    phaseTitle: 'Faza 3: Seiso (Očistiti)',
+    phaseDescription: 'Očistite alate na Shadowboard-u pomoću pokreta miša ili prsta',
+    counter: 'Očišćeno:',
+    instructionsTitle: 'Uputstva:',
+    instruction1: 'Pomerajte miš ili prst preko alata da biste ih očistili',
+    instruction2: 'Pratite procenat očišćenosti na svakom alatu',
+    instruction3: 'Kada alat dostigne 100%, prljavština nestaje',
+    instruction4: 'Očistite sve 7 alata da biste završili fazu',
+    successTitle: 'Svaka čast!',
+    successDesc: 'Faza 3 (Seiso - Očistiti) je uspešno završena. Svi alati su sada čisti!',
+    successButton: 'Pređi na Fazu 4: Seiketsu (Standardizovati)'
+  },
+  en: {
+    phaseTitle: 'Phase 3: Seiso (Shine)',
+    phaseDescription: 'Clean the tools on the Shadowboard using mouse or finger movements',
+    counter: 'Cleaned:',
+    instructionsTitle: 'Instructions:',
+    instruction1: 'Move mouse or finger over tools to clean them',
+    instruction2: 'Monitor the cleanliness percentage on each tool',
+    instruction3: 'When a tool reaches 100%, dirt disappears',
+    instruction4: 'Clean all 7 tools to complete the phase',
+    successTitle: 'Well done!',
+    successDesc: 'Phase 3 (Seiso - Shine) has been successfully completed. All tools are now clean!',
+    successButton: 'Move to Phase 4: Seiketsu (Standardize)'
+  }
+};
+
 export interface SeisoTool {
   id: string;
   name: string;
@@ -16,9 +46,11 @@ export interface SeisoTool {
 interface SeisoStageProps {
   tools: SeisoTool[];
   onTransitionToPhase4?: () => void;
+  language: 'sr' | 'en';
 }
 
-export function SeisoStage({ tools: initialTools, onTransitionToPhase4 }: SeisoStageProps) {
+export function SeisoStage({ tools: initialTools, onTransitionToPhase4, language }: SeisoStageProps) {
+  const t = translations[language];
   const [tools, setTools] = useState<SeisoTool[]>(
     initialTools.map(tool => ({ ...tool, cleanliness: 0 }))
   );
@@ -71,10 +103,10 @@ export function SeisoStage({ tools: initialTools, onTransitionToPhase4 }: SeisoS
         className="mb-6 text-center sm:mb-8"
       >
         <h2 className="text-2xl font-bold text-white sm:text-3xl">
-          Faza 3: Seiso (Očistiti)
+          {t.phaseTitle}
         </h2>
         <p className="mt-2 text-base text-gray-300 sm:text-lg">
-          Očistite alate na Shadowboard-u pomoću pokreta miša ili prsta
+          {t.phaseDescription}
         </p>
         
         {/* Progress Counter */}
@@ -86,7 +118,7 @@ export function SeisoStage({ tools: initialTools, onTransitionToPhase4 }: SeisoS
         >
           <CheckCircle className="h-5 w-5 text-green-400" />
           <span className="text-sm font-semibold text-white sm:text-base">
-            Očišćeno: {cleanedCount} / {tools.length}
+            {t.counter} {cleanedCount} / {tools.length}
           </span>
         </motion.div>
       </motion.div>
@@ -188,13 +220,13 @@ export function SeisoStage({ tools: initialTools, onTransitionToPhase4 }: SeisoS
         className="mt-6 rounded-lg bg-white/10 p-3 backdrop-blur-sm sm:mt-8 sm:p-4"
       >
         <h4 className="mb-2 text-base font-semibold text-white sm:text-lg">
-          Uputstva:
+          {t.instructionsTitle}
         </h4>
         <ul className="list-inside list-disc space-y-1 text-xs text-gray-300 sm:text-sm">
-          <li>Pomerajte miš ili prst preko alata da biste ih očistili</li>
-          <li>Pratite procenat očišćenosti na svakom alatu</li>
-          <li>Kada alat dostigne 100%, prljavština nestaje</li>
-          <li>Očistite sve 7 alata da biste završili fazu</li>
+          <li>{t.instruction1}</li>
+          <li>{t.instruction2}</li>
+          <li>{t.instruction3}</li>
+          <li>{t.instruction4}</li>
         </ul>
       </motion.div>
 
@@ -222,10 +254,10 @@ export function SeisoStage({ tools: initialTools, onTransitionToPhase4 }: SeisoS
               </motion.div>
             </div>
             <h3 className="mb-3 text-center text-2xl font-bold text-white">
-              Svaka čast!
+              {t.successTitle}
             </h3>
             <p className="mb-6 text-center text-gray-300">
-              Faza 3 (Seiso - Očistiti) je uspešno završena. Svi alati su sada čisti!
+              {t.successDesc}
             </p>
             <motion.button
               whileHover={{ scale: 1.05 }}
@@ -238,7 +270,7 @@ export function SeisoStage({ tools: initialTools, onTransitionToPhase4 }: SeisoS
               }}
               className="w-full rounded-xl bg-gradient-to-r from-green-500 to-blue-500 px-6 py-3 font-semibold text-white shadow-lg transition-all hover:shadow-green-500/25"
             >
-              Pređi na Fazu 4: Seiketsu (Standardizovati)
+              {t.successButton}
             </motion.button>
           </motion.div>
         </motion.div>
