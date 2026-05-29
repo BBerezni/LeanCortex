@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowRight, Layers, TrendingUp, Users, Target, Kanban, Shield, AlertCircle } from 'lucide-react'
+import { ArrowRight, Layers, TrendingUp, Users, Target, Kanban, Shield, AlertCircle, Scale, Activity } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/context/LanguageContext'
 
@@ -57,11 +57,11 @@ const modulesTranslations = {
       {
         id: 'kanban',
         title: 'Kanban',
-        description: 'Sistem vizuelnog menadžmenta koji kontroliše tok materijala i informacija.',
+        description: 'Upravljanje zalihama i eliminacija prekomerne proizvodnje.',
         icon: Kanban,
         color: 'text-cyan-600',
         bgColor: 'bg-cyan-50',
-        features: ['Pull sistem', 'Kanban kartice', 'WIP limiti', 'Just-in-Time'],
+        features: ['Pull sistem', 'Kanban kartice', 'WIP limiti'],
         difficulty: 'Srednji nivo'
       },
       {
@@ -77,11 +77,31 @@ const modulesTranslations = {
       {
         id: 'jidoka',
         title: 'Jidoka',
-        description: 'Automatizacija sa ljudskom inteligencijom - zaustavljanje linije pri problemu.',
+        description: 'Autonomacija i zaustavljanje linije pri uočavanju škarta.',
         icon: AlertCircle,
         color: 'text-amber-600',
         bgColor: 'bg-amber-50',
-        features: ['Andon sistemi', 'Autonomacija', 'Kvalitet na izvoru', 'Problem solving'],
+        features: ['Andon sistemi', 'Autonomacija', 'Kvalitet na izvoru'],
+        difficulty: 'Napredni nivo'
+      },
+      {
+        id: 'heijunka',
+        title: 'Heijunka',
+        description: 'Ublažavanje fluktuacija u zahtevima i nivelisanje proizvodnje.',
+        icon: Scale,
+        color: 'text-pink-600',
+        bgColor: 'bg-pink-50',
+        features: ['Nivelisanje proizvodnje', 'Ublažavanje fluktuacija', 'Minimiziranje rasipanja'],
+        difficulty: 'Napredni nivo'
+      },
+      {
+        id: 'oee',
+        title: 'OEE',
+        description: 'Praćenje, merenje i optimizacija efikasnosti opreme.',
+        icon: Activity,
+        color: 'text-red-600',
+        bgColor: 'bg-red-50',
+        features: ['Dostupnost', 'Performanse', 'Kvalitet rada'],
         difficulty: 'Napredni nivo'
       }
     ]
@@ -135,11 +155,11 @@ const modulesTranslations = {
       {
         id: 'kanban',
         title: 'Kanban',
-        description: 'Visual management system that controls the flow of materials and information.',
+        description: 'Manage inventory levels and eliminate overproduction.',
         icon: Kanban,
         color: 'text-cyan-600',
         bgColor: 'bg-cyan-50',
-        features: ['Pull System', 'Kanban Cards', 'WIP Limits', 'Just-in-Time'],
+        features: ['Pull System', 'Workflow Cards', 'WIP Limits'],
         difficulty: 'Intermediate Level'
       },
       {
@@ -155,11 +175,31 @@ const modulesTranslations = {
       {
         id: 'jidoka',
         title: 'Jidoka',
-        description: 'Automation with human intelligence - stopping the line when a problem occurs.',
+        description: 'Autonomation and real-time defect containment.',
         icon: AlertCircle,
         color: 'text-amber-600',
         bgColor: 'bg-amber-50',
-        features: ['Andon Systems', 'Autonomation', 'Quality at Source', 'Problem Solving'],
+        features: ['Andon Systems', 'Autonomation', 'Quality at Source'],
+        difficulty: 'Advanced Level'
+      },
+      {
+        id: 'heijunka',
+        title: 'Heijunka',
+        description: 'Smooth out demand fluctuations and production volume.',
+        icon: Scale,
+        color: 'text-pink-600',
+        bgColor: 'bg-pink-50',
+        features: ['Production Leveling', 'Demand Smoothing', 'Waste Minimization'],
+        difficulty: 'Advanced Level'
+      },
+      {
+        id: 'oee',
+        title: 'OEE',
+        description: 'Track, measure, and optimize machine efficiency.',
+        icon: Activity,
+        color: 'text-red-600',
+        bgColor: 'bg-red-50',
+        features: ['Availability', 'Performance', 'Output Quality'],
         difficulty: 'Advanced Level'
       }
     ]
@@ -199,9 +239,9 @@ export function ModulesSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
-              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+              className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 h-full flex flex-col"
             >
-              <div className="p-6">
+              <div className="p-6 flex-1 flex flex-col">
                 {/* Icon and Title */}
                 <div className={`${module.bgColor} rounded-lg p-3 w-fit mb-4`}>
                   <module.icon className={`h-8 w-8 ${module.color}`} />
@@ -216,7 +256,7 @@ export function ModulesSection() {
                 </p>
 
                 {/* Features */}
-                <div className="space-y-2 mb-4">
+                <div className="space-y-2 mb-4 flex-1">
                   {module.features.slice(0, 3).map((feature, featureIndex) => (
                     <div key={featureIndex} className="flex items-center text-sm text-gray-600">
                       <div className="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
@@ -230,11 +270,6 @@ export function ModulesSection() {
                   <span className="text-xs font-medium px-2 py-1 bg-gray-100 text-gray-700 rounded-full">
                     {module.difficulty}
                   </span>
-                  {module.features.length > 3 && (
-                    <span className="text-xs text-gray-500">
-                      {t.more.replace('{count}', String(module.features.length - 3))}
-                    </span>
-                  )}
                 </div>
 
                 {/* CTA Button */}

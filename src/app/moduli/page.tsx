@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import { ArrowLeft, Lock, Layers, TrendingUp, Target, Users, Shield, Scale, Activity } from 'lucide-react'
+import { ArrowLeft, Lock, Layers, TrendingUp, Target, Users, Shield, Scale, Activity, Kanban, AlertCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useLanguage } from '@/context/LanguageContext'
 
@@ -24,7 +24,7 @@ const dashboardTranslations = {
       {
         id: '5s',
         title: '5S Metodologija',
-        description: 'Organizovati (Seiton) - Pravo mesto za sve i sve na svom mestu',
+        description: 'Organizacija radnog mesta i vizuelni menadžment.',
         icon: Layers,
         color: 'from-blue-600 to-blue-800',
         active: true,
@@ -33,16 +33,25 @@ const dashboardTranslations = {
       {
         id: 'kaizen',
         title: 'Kaizen',
-        description: 'Kontinuirano poboljšanje procesa',
+        description: 'Kontinuirano poboljšanje procesa i eliminacija gubitaka.',
         icon: TrendingUp,
         color: 'from-green-600 to-green-800',
         active: false,
         link: '' as const
       },
       {
+        id: 'kanban',
+        title: 'Kanban',
+        description: 'Upravljanje tokom materijala pomoću pull sistema.',
+        icon: Kanban,
+        color: 'from-cyan-600 to-cyan-800',
+        active: true,
+        link: '/moduli/kanban' as const
+      },
+      {
         id: 'vsm',
         title: 'VSM Mapiranje',
-        description: 'Vrednosno mapiranje tokova',
+        description: 'Vrednosno mapiranje tokova i identifikacija rasipanja.',
         icon: Target,
         color: 'from-orange-600 to-orange-800',
         active: true,
@@ -51,7 +60,7 @@ const dashboardTranslations = {
       {
         id: 'smed',
         title: 'SMED',
-        description: 'Brza promena alata',
+        description: 'Brza promena alata i smanjenje vremena podešavanja.',
         icon: Users,
         color: 'from-purple-600 to-purple-800',
         active: true,
@@ -59,17 +68,26 @@ const dashboardTranslations = {
       },
       {
         id: 'poka-yoke',
-        title: 'Poka Yoke',
-        description: 'Sprečavanje grešaka',
+        title: 'Poka-Yoke',
+        description: 'Sprečavanje grešaka na samom izvoru procesa.',
         icon: Shield,
         color: 'from-cyan-600 to-cyan-800',
         active: true,
         link: '/moduli/poka-yoke' as const
       },
       {
+        id: 'jidoka',
+        title: 'Jidoka',
+        description: 'Inteligentna automatizacija sa ljudskim dodirom.',
+        icon: AlertCircle,
+        color: 'from-amber-600 to-amber-800',
+        active: false,
+        link: '' as const
+      },
+      {
         id: 'heijunka',
         title: 'Heijunka',
-        description: 'Balansiranje produkcije',
+        description: 'Nivelisanje i balansiranje obima proizvodnje.',
         icon: Scale,
         color: 'from-pink-600 to-pink-800',
         active: false,
@@ -78,7 +96,7 @@ const dashboardTranslations = {
       {
         id: 'oee',
         title: 'OEE',
-        description: 'Ukupna efikasnost opreme',
+        description: 'Merenje i analiza ukupne efikasnosti opreme.',
         icon: Activity,
         color: 'from-red-600 to-red-800',
         active: false,
@@ -98,7 +116,7 @@ const dashboardTranslations = {
       {
         id: '5s',
         title: '5S Methodology',
-        description: 'Set in Order (Seiton) - A place for everything and everything in its place',
+        description: 'Workspace organization and visual management.',
         icon: Layers,
         color: 'from-blue-600 to-blue-800',
         active: true,
@@ -107,16 +125,25 @@ const dashboardTranslations = {
       {
         id: 'kaizen',
         title: 'Kaizen',
-        description: 'Continuous process improvement',
+        description: 'Continuous process improvement and waste elimination.',
         icon: TrendingUp,
         color: 'from-green-600 to-green-800',
         active: false,
         link: '' as const
       },
       {
+        id: 'kanban',
+        title: 'Kanban',
+        description: 'Material and information flow control via pull systems.',
+        icon: Kanban,
+        color: 'from-cyan-600 to-cyan-800',
+        active: true,
+        link: '/moduli/kanban' as const
+      },
+      {
         id: 'vsm',
         title: 'VSM Mapping',
-        description: 'Value stream mapping',
+        description: 'Value stream mapping and waste identification.',
         icon: Target,
         color: 'from-orange-600 to-orange-800',
         active: true,
@@ -125,7 +152,7 @@ const dashboardTranslations = {
       {
         id: 'smed',
         title: 'SMED',
-        description: 'Rapid tool change',
+        description: 'Quick changeover and setup time reduction.',
         icon: Users,
         color: 'from-purple-600 to-purple-800',
         active: true,
@@ -133,17 +160,26 @@ const dashboardTranslations = {
       },
       {
         id: 'poka-yoke',
-        title: 'Poka Yoke',
-        description: 'Error prevention',
+        title: 'Poka-Yoke',
+        description: 'Error-proofing and defect prevention at the source.',
         icon: Shield,
         color: 'from-cyan-600 to-cyan-800',
         active: true,
         link: '/moduli/poka-yoke' as const
       },
       {
+        id: 'jidoka',
+        title: 'Jidoka',
+        description: 'Intelligent automation with a human touch.',
+        icon: AlertCircle,
+        color: 'from-amber-600 to-amber-800',
+        active: false,
+        link: '' as const
+      },
+      {
         id: 'heijunka',
         title: 'Heijunka',
-        description: 'Production leveling',
+        description: 'Production leveling and demand smoothing.',
         icon: Scale,
         color: 'from-pink-600 to-pink-800',
         active: false,
@@ -152,7 +188,7 @@ const dashboardTranslations = {
       {
         id: 'oee',
         title: 'OEE',
-        description: 'Overall equipment effectiveness',
+        description: 'Measurement and analysis of overall equipment effectiveness.',
         icon: Activity,
         color: 'from-red-600 to-red-800',
         active: false,
@@ -199,19 +235,19 @@ export default function ModuliPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="relative"
+              className="relative h-full"
             >
               {module.active ? (
                 <Link href={module.link}>
                   <motion.div
                     whileHover={{ scale: 1.05, y: -5 }}
                     whileTap={{ scale: 0.98 }}
-                    className="relative overflow-hidden rounded-xl border border-slate-700 bg-gradient-to-br from-slate-800 to-slate-900 p-6 shadow-2xl transition-all hover:border-slate-500 hover:shadow-blue-500/20"
+                    className="relative overflow-hidden rounded-xl border border-slate-700 bg-gradient-to-br from-slate-800 to-slate-900 p-6 shadow-2xl transition-all hover:border-slate-500 hover:shadow-blue-500/20 h-full flex flex-col"
                   >
                     <div className={`absolute inset-0 bg-gradient-to-br ${module.color} opacity-10 transition-opacity hover:opacity-20`} />
                     
-                    <div className="relative z-10">
-                      <div className={`mb-4 inline-flex rounded-lg bg-gradient-to-br ${module.color} p-3`}>
+                    <div className="relative z-10 flex-1 flex flex-col">
+                      <div className={`mb-4 w-12 h-12 flex items-center justify-center rounded-lg bg-gradient-to-br ${module.color}`}>
                         <module.icon className="h-8 w-8 text-white" />
                       </div>
                       
@@ -223,7 +259,7 @@ export default function ModuliPage() {
                         {module.description}
                       </p>
                       
-                      <div className="mt-4 flex items-center text-sm font-semibold text-blue-400">
+                      <div className="mt-auto pt-4 flex items-center text-sm font-semibold text-blue-400">
                         {t.start}
                         <ArrowLeft className="ml-2 h-4 w-4 rotate-180" />
                       </div>
@@ -232,12 +268,12 @@ export default function ModuliPage() {
                 </Link>
               ) : (
                 <motion.div
-                  className="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/50 p-6 opacity-60"
+                  className="relative overflow-hidden rounded-xl border border-slate-800 bg-slate-900/50 p-6 opacity-60 h-full flex flex-col"
                 >
                   <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900" />
                   
-                  <div className="relative z-10">
-                    <div className="mb-4 inline-flex rounded-lg bg-slate-800 p-3">
+                  <div className="relative z-10 flex-1 flex flex-col">
+                    <div className="mb-4 w-12 h-12 flex items-center justify-center rounded-lg bg-slate-800">
                       <module.icon className="h-8 w-8 text-gray-500" />
                     </div>
                     
@@ -253,7 +289,7 @@ export default function ModuliPage() {
                       {module.description}
                     </p>
                     
-                    <div className="mt-4 inline-flex rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-gray-500">
+                    <div className="mt-auto pt-4 inline-flex rounded-full bg-slate-800 px-3 py-1 text-xs font-semibold text-gray-500">
                       {t.comingSoon}
                     </div>
                   </div>
