@@ -99,8 +99,8 @@ const dashboardTranslations = {
         description: 'Merenje i analiza ukupne efikasnosti opreme.',
         icon: Activity,
         color: 'from-red-600 to-red-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/oee' as const
       }
     ]
   },
@@ -191,8 +191,8 @@ const dashboardTranslations = {
         description: 'Measurement and analysis of overall equipment effectiveness.',
         icon: Activity,
         color: 'from-red-600 to-red-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/oee' as const
       }
     ]
   }
