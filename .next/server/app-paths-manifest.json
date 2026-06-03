@@ -1,8 +1,7 @@
 {
-  "/moduli/oee/page": "app/moduli/oee/page.js",
   "/page": "app/page.js",
   "/moduli/page": "app/moduli/page.js",
-  "/moduli/kanban/page": "app/moduli/kanban/page.js",
+  "/moduli/jidoka/page": "app/moduli/jidoka/page.js",
   "/moduli/vsm/page": "app/moduli/vsm/page.js",
-  "/moduli/poka-yoke/page": "app/moduli/poka-yoke/page.js"
+  "/moduli/kaizen/page": "app/moduli/kaizen/page.js"
 }

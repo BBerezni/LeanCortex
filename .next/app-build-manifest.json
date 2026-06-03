@@ -40,6 +40,21 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/moduli/vsm/page.js"
+    ],
+    "/moduli/kaizen/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/moduli/kaizen/page.js"
+    ],
+    "/moduli/5s/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/moduli/5s/page.js"
+    ],
+    "/moduli/smed/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/moduli/smed/page.js"
     ]
   }
 }

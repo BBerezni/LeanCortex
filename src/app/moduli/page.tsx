@@ -36,8 +36,8 @@ const dashboardTranslations = {
         description: 'Kontinuirano poboljšanje procesa i eliminacija gubitaka.',
         icon: TrendingUp,
         color: 'from-green-600 to-green-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/kaizen' as const
       },
       {
         id: 'kanban',
@@ -128,8 +128,8 @@ const dashboardTranslations = {
         description: 'Continuous process improvement and waste elimination.',
         icon: TrendingUp,
         color: 'from-green-600 to-green-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/kaizen' as const
       },
       {
         id: 'kanban',
