@@ -81,8 +81,8 @@ const dashboardTranslations = {
         description: 'Inteligentna automatizacija sa ljudskim dodirom.',
         icon: AlertCircle,
         color: 'from-amber-600 to-amber-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/jidoka' as const
       },
       {
         id: 'heijunka',
@@ -173,8 +173,8 @@ const dashboardTranslations = {
         description: 'Intelligent automation with a human touch.',
         icon: AlertCircle,
         color: 'from-amber-600 to-amber-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/jidoka' as const
       },
       {
         id: 'heijunka',
