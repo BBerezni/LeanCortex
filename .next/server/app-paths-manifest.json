@@ -1,7 +1,4 @@
 {
   "/page": "app/page.js",
-  "/moduli/page": "app/moduli/page.js",
-  "/moduli/jidoka/page": "app/moduli/jidoka/page.js",
-  "/moduli/vsm/page": "app/moduli/vsm/page.js",
-  "/moduli/kaizen/page": "app/moduli/kaizen/page.js"
+  "/o-nama/page": "app/o-nama/page.js"
 }

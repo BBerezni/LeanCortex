@@ -6,55 +6,20 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
     "/moduli/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/moduli/page.js"
     ],
-    "/moduli/jidoka/page": [
+    "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/moduli/jidoka/page.js"
+      "static/chunks/app/page.js"
     ],
-    "/moduli/oee/page": [
+    "/o-nama/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/moduli/oee/page.js"
-    ],
-    "/moduli/poka-yoke/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/moduli/poka-yoke/page.js"
-    ],
-    "/moduli/kanban/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/moduli/kanban/page.js"
-    ],
-    "/moduli/vsm/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/moduli/vsm/page.js"
-    ],
-    "/moduli/kaizen/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/moduli/kaizen/page.js"
-    ],
-    "/moduli/5s/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/moduli/5s/page.js"
-    ],
-    "/moduli/smed/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/moduli/smed/page.js"
+      "static/chunks/app/o-nama/page.js"
     ]
   }
 }

@@ -17,7 +17,7 @@ const heroTranslations = {
     gamification: 'Gejmifikacija',
     gamificationDesc: 'Elementi igre i simulacije stvarnih industrijskih problema za lakše pamćenje.',
     completeness: 'Kompletnost',
-    completenessDesc: 'Obuhvaćeno svih 7 ključnih Lean alata na jednom mestu.'
+    completenessDesc: 'Obuhvaćeno svih 9 ključnih Lean modula na jednom mestu.'
   },
   en: {
     title: 'LeanCortex — Interactive Platform for Lean Technology Education and Simulation',
@@ -28,7 +28,7 @@ const heroTranslations = {
     gamification: 'Gamification',
     gamificationDesc: 'Game elements and simulation of real industrial problems for easier retention.',
     completeness: 'Completeness',
-    completenessDesc: 'All 7 key Lean tools covered in one place.'
+    completenessDesc: 'All 9 key Lean modules covered in one place.'
   }
 }
 
