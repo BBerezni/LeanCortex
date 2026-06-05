@@ -18,8 +18,6 @@ const dashboardTranslations = {
     subtitle: 'Interaktivni alati za implementaciju Lean metodologije',
     start: 'Zapocnite',
     comingSoon: 'Uskoro',
-    developmentMap: 'Mapa razvoja',
-    developmentMapDesc: 'Trenutno je dostupan modul 5S Metodologija. Ostali moduli su u razvoju i biće objavljeni uskoro. Svaki modul je dizajniran da pruži praktična znanja kroz interaktivne simulacije.',
     modules: [
       {
         id: '5s',
@@ -110,8 +108,6 @@ const dashboardTranslations = {
     subtitle: 'Interactive tools for Lean methodology implementation',
     start: 'Start',
     comingSoon: 'Coming Soon',
-    developmentMap: 'Development Roadmap',
-    developmentMapDesc: 'Currently, the 5S Methodology module is available. Other modules are under development and will be released soon. Each module is designed to provide practical knowledge through interactive simulations.',
     modules: [
       {
         id: '5s',
@@ -299,20 +295,6 @@ export default function ModuliPage() {
           ))}
         </div>
 
-        {/* Info Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-12 rounded-xl border border-slate-800 bg-slate-900/50 p-6 backdrop-blur-sm"
-        >
-          <h3 className="mb-3 text-lg font-semibold text-white">
-            {t.developmentMap}
-          </h3>
-          <p className="text-sm text-gray-400">
-            {t.developmentMapDesc}
-          </p>
-        </motion.div>
       </div>
     </div>
   )
