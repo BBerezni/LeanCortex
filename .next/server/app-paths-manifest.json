@@ -1,5 +1,15 @@
 {
+  "/_not-found": "app/_not-found.js",
+  "/moduli/5s/page": "app/moduli/5s/page.js",
+  "/moduli/jidoka/page": "app/moduli/jidoka/page.js",
+  "/moduli/poka-yoke/page": "app/moduli/poka-yoke/page.js",
+  "/moduli/kanban/page": "app/moduli/kanban/page.js",
+  "/moduli/smed/page": "app/moduli/smed/page.js",
+  "/moduli/oee/page": "app/moduli/oee/page.js",
   "/moduli/heijunka/page": "app/moduli/heijunka/page.js",
-  "/moduli/page": "app/moduli/page.js",
-  "/page": "app/page.js"
+  "/moduli/vsm/page": "app/moduli/vsm/page.js",
+  "/o-nama/page": "app/o-nama/page.js",
+  "/moduli/kaizen/page": "app/moduli/kaizen/page.js",
+  "/page": "app/page.js",
+  "/moduli/page": "app/moduli/page.js"
 }

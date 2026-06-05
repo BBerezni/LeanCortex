@@ -11,7 +11,7 @@ import { useState, useMemo } from 'react'
 const heijunkaTranslations = {
   sr: {
     pageTitle: 'Heijunka (Nivelacija proizvodnje)',
-    description: 'Heijunka je tehnika balansiranja proizvodnje kojom se izbegavaju nagli skokovi i padovi u obimu rada. Umesto proizvodnje u velikim serijama (što stvara ogromne zalihe i uska grla), Heijunka ravnomerno raspoređuje različite proizvode tokom vremena.',
+    description: 'Tehnika balansiranja i ravnomernog raspoređivanja proizvodnje različitih proizvoda tokom vremena radi eliminacije zaliha i uskih grla.',
     demandTitle: 'Potražnja kupaca (Nedeljni plan)',
     traditionalTitle: 'Tradicionalna proizvodnja (Velike serije)',
     heijunkaTitle: 'Heijunka Box (Nivelisan tok)',
@@ -46,7 +46,7 @@ const heijunkaTranslations = {
   },
   en: {
     pageTitle: 'Heijunka (Production Leveling)',
-    description: 'Heijunka is a production leveling technique used to avoid sudden spikes and drops in workload. Instead of batching large quantities (which creates massive inventory and bottlenecks), Heijunka evenly distributes different products over time.',
+    description: 'A production leveling technique used to distribute different products evenly over time to eliminate inventory and bottlenecks.',
     demandTitle: 'Customer Demand (Weekly Plan)',
     traditionalTitle: 'Traditional Batching (Large Lots)',
     heijunkaTitle: 'Heijunka Box (Leveled Flow)',
@@ -191,25 +191,23 @@ export default function HeijunkaPage() {
           transition={{ duration: 0.6 }}
           className="mb-8"
         >
-          <Link href="/moduli">
-            <Button variant="ghost" className="mb-6 text-gray-300 hover:text-white hover:bg-slate-800">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              {t.backToModules}
-            </Button>
-          </Link>
-          
-          <div className="flex items-center gap-4 mb-4">
-            <div className="w-16 h-16 flex items-center justify-center rounded-xl bg-gradient-to-br from-pink-600 to-pink-800">
-              <Scale className="h-10 w-10 text-white" />
-            </div>
+          <div className="flex items-center justify-between mb-6">
+            <Link href="/moduli">
+              <Button variant="ghost" className="text-gray-300 hover:text-white hover:bg-slate-800">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                {t.backToModules}
+              </Button>
+            </Link>
+          </div>
+
+          <div className="text-center">
             <h1 className="text-4xl font-bold text-white sm:text-5xl">
               {t.pageTitle}
             </h1>
+            <p className="mt-4 text-lg text-gray-400 max-w-4xl mx-auto">
+              {t.description}
+            </p>
           </div>
-          
-          <p className="mt-4 text-lg text-gray-400 max-w-4xl">
-            {t.description}
-          </p>
         </motion.div>
 
         {/* Demand Control Card */}

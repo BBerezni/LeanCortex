@@ -75,14 +75,9 @@ export function FiveSGame() {
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background */}
       <div className="fixed inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1920&q=80"
-          alt="Workshop Background"
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/60" />
+        <div className="h-full w-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900" />
       </div>
 
       {/* Game Content */}
