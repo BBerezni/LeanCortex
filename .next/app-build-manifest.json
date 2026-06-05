@@ -11,15 +11,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/moduli/page.js"
     ],
+    "/moduli/heijunka/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/moduli/heijunka/page.js"
+    ],
     "/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
-    ],
-    "/o-nama/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/o-nama/page.js"
     ]
   }
 }

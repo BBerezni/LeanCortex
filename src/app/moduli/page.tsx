@@ -90,8 +90,8 @@ const dashboardTranslations = {
         description: 'Nivelisanje i balansiranje obima proizvodnje.',
         icon: Scale,
         color: 'from-pink-600 to-pink-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/heijunka' as const
       },
       {
         id: 'oee',
@@ -182,8 +182,8 @@ const dashboardTranslations = {
         description: 'Production leveling and demand smoothing.',
         icon: Scale,
         color: 'from-pink-600 to-pink-800',
-        active: false,
-        link: '' as const
+        active: true,
+        link: '/moduli/heijunka' as const
       },
       {
         id: 'oee',
